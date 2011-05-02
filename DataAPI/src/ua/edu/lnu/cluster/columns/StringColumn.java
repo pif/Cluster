@@ -5,6 +5,7 @@
 package ua.edu.lnu.cluster.columns;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -14,23 +15,16 @@ import java.util.List;
 public class StringColumn implements DataColumn {
     
     private List<String> data = new ArrayList<String>();
-    
-    /**
-     * 
-     * @param observation
-     * @param value
-     * @return previous value
-     */
-    @Override
-    public String setData(int observation, String value) {
-        return data.set(observation, value);
+
+    public StringColumn(Collection<String> chunks) {
+        data.addAll(chunks);
     }
     
-    /**
-     * 
-     * @param observation
-     * @return previous value
-     */
+    @Override
+    public void setData(int observation, String value) {
+        data.set(observation, value);
+    }
+    
     @Override
     public void removeData(int observation) {
         data.remove(observation);

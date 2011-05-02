@@ -4,9 +4,6 @@
  */
 package ua.edu.lnu.cluster.columns;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * provides basic data column information
  * @author pif
