@@ -6,7 +6,6 @@ package ua.edu.lnu.cluster.ui.dm;
 
 import org.openide.util.NbBundle;
 import org.openide.windows.TopComponent;
-import org.openide.windows.WindowManager;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
@@ -27,7 +26,13 @@ persistenceType = TopComponent.PERSISTENCE_ALWAYS)
 preferredID = "DataModelTopComponent")
 public final class DataModelTopComponent extends TopComponent {
 
-    private DataModel dataModel = null;
+    private DataModel dataModel = new DataModel();
+
+    public DataModelTopComponent() {
+        this(dataModel);
+    }
+    
+    
     
     public DataModelTopComponent(DataModel model) {
         initComponents();

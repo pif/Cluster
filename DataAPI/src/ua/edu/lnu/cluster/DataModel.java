@@ -35,6 +35,10 @@ public class DataModel {
         }
     }
 
+    public DataModel() {
+        
+    }
+
     public int getObservationCount() {
         return observations.size();
     }
