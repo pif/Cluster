@@ -5,7 +5,6 @@
 package ua.edu.lnu.cluster.loaders.api;
 
 import java.io.BufferedReader;
-import java.util.List;
 import ua.edu.lnu.cluster.DataModel;
 
 /**
