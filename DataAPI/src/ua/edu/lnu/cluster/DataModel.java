@@ -34,6 +34,14 @@ public class DataModel {
             }
         }
     }
+
+    public int getObservationCount() {
+        return observations.size();
+    }
+    
+    public int getFeaturesCount() {
+        return dataColumns.size();
+    }
     
     public void removeObservation(int id) {
         for (DataColumn dataField : dataColumns) {

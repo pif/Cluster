@@ -4,12 +4,18 @@
  */
 package ua.edu.lnu.cluster.ui;
 
+import java.io.BufferedReader;
+import java.io.StringReader;
 import org.openide.util.NbBundle;
 import org.openide.windows.TopComponent;
 import org.openide.windows.WindowManager;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
+import ua.edu.lnu.cluster.DataModel;
+import ua.edu.lnu.cluster.loaders.CommaSeparatedLoader;
+import ua.edu.lnu.cluster.loaders.Loader;
+import ua.edu.lnu.cluster.ui.dm.DataModelTopComponent;
 
 /**
  * Top component which displays something.
@@ -26,6 +32,8 @@ persistenceType = TopComponent.PERSISTENCE_ALWAYS)
 preferredID = "RawDataUITopComponent")
 public final class RawDataUITopComponent extends TopComponent {
 
+    private Loader loader = new CommaSeparatedLoader();
+    
     public RawDataUITopComponent() {
         initComponents();
         setName(NbBundle.getMessage(RawDataUITopComponent.class, "CTL_RawDataUITopComponent"));
@@ -50,6 +58,11 @@ public final class RawDataUITopComponent extends TopComponent {
         jScrollPane1.setViewportView(jTextArea1);
 
         org.openide.awt.Mnemonics.setLocalizedText(jButton1, org.openide.util.NbBundle.getMessage(RawDataUITopComponent.class, "RawDataUITopComponent.jButton1.text")); // NOI18N
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -72,6 +85,11 @@ public final class RawDataUITopComponent extends TopComponent {
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        TopComponent dataModelTopComponent = new DataModelTopComponent(new DataModel(loader.getData(new BufferedReader(new StringReader(jTextArea1.getText())))));
+        dataModelTopComponent.open();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
