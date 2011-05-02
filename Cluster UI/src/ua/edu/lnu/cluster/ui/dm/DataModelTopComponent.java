@@ -4,11 +4,16 @@
  */
 package ua.edu.lnu.cluster.ui.dm;
 
+import java.util.Collections;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import org.openide.util.NbBundle;
 import org.openide.windows.TopComponent;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
+import org.openide.util.lookup.AbstractLookup;
+import org.openide.util.lookup.InstanceContent;
 import ua.edu.lnu.cluster.DataModel;
 
 /**
@@ -26,10 +31,21 @@ persistenceType = TopComponent.PERSISTENCE_ALWAYS)
 preferredID = "DataModelTopComponent")
 public final class DataModelTopComponent extends TopComponent {
 
-    private DataModel dataModel = new DataModel();
+    private class DataColumnListener implements ListSelectionListener {
 
+        @Override
+        public void valueChanged(ListSelectionEvent lse) {
+            if (jTable1.getSelectedColumnCount()>0) {
+                content.add(dataModel.getDataColumn(jTable1.getSelectedColumns()[0]));
+            }
+        }
+
+    }
+
+    private DataModel dataModel = new DataModel();
+    private final InstanceContent content = new InstanceContent();
     public DataModelTopComponent() {
-        this(dataModel);
+        this(new DataModel());
     }
     
     
@@ -40,7 +56,10 @@ public final class DataModelTopComponent extends TopComponent {
         setToolTipText(NbBundle.getMessage(DataModelTopComponent.class, "HINT_DataModelTopComponent"));
 
         this.dataModel = model;
+        associateLookup(new AbstractLookup(content));
         jTable1.setModel(new DMTableModel(dataModel));
+        jTable1.getSelectionModel().addListSelectionListener(new DataColumnListener());
+        content.set(Collections.singleton(this.dataModel), null);
     }
 
     /** This method is called from within the constructor to
