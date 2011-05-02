@@ -27,13 +27,16 @@ public class DataModel {
     private String name = "Dataset";
     private List listeners = Collections.synchronizedList(new LinkedList());
 
-    public DataModel(List<String[]> rawData) {
+    public DataModel(List<String[]> rawData, List<String> headers) {
         if (!rawData.isEmpty()) {
             String[] observation = rawData.get(0);
             int featureCount = observation.length;
 
             for (int i = 0; i < featureCount; i++) {
-                dataColumns.add(new StringColumn());
+                DataColumn column = new StringColumn();
+                column.setName(headers.get(i));
+                
+                dataColumns.add(column);
             }
 
             for (int i = 0; i < rawData.size(); i++) {

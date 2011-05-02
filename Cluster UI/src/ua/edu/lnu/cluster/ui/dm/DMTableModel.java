@@ -5,7 +5,6 @@
 package ua.edu.lnu.cluster.ui.dm;
 
 import javax.swing.table.AbstractTableModel;
-import javax.swing.table.DefaultTableModel;
 import ua.edu.lnu.cluster.DataModel;
 
 /**
@@ -34,5 +33,11 @@ public class DMTableModel extends AbstractTableModel {
     public Object getValueAt(int row, int column) {
         return dataModel.getObservation(row).getField(column);
     }
+
+    @Override
+    public String getColumnName(int i) {
+        return dataModel.getDataColumn(i).getName();
+    }
+
     
 }

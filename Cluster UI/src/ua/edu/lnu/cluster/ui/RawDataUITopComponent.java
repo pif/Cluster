@@ -12,9 +12,10 @@ import org.openide.windows.WindowManager;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
+import org.openide.util.Lookup;
 import ua.edu.lnu.cluster.DataModel;
 import ua.edu.lnu.cluster.loaders.CommaSeparatedLoader;
-import ua.edu.lnu.cluster.loaders.Loader;
+import ua.edu.lnu.cluster.loaders.api.Loader;
 import ua.edu.lnu.cluster.ui.dm.DataModelTopComponent;
 
 /**
@@ -32,7 +33,7 @@ persistenceType = TopComponent.PERSISTENCE_ALWAYS)
 preferredID = "RawDataUITopComponent")
 public final class RawDataUITopComponent extends TopComponent {
 
-    private Loader loader = new CommaSeparatedLoader();
+    private Loader loader = Lookup.getDefault().lookup(Loader.class);
     
     public RawDataUITopComponent() {
         initComponents();
@@ -87,7 +88,8 @@ public final class RawDataUITopComponent extends TopComponent {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        TopComponent dataModelTopComponent = new DataModelTopComponent(new DataModel(loader.getData(new BufferedReader(new StringReader(jTextArea1.getText())))));
+        
+        TopComponent dataModelTopComponent = new DataModelTopComponent(loader.getData(new BufferedReader(new StringReader(jTextArea1.getText())), true));
         dataModelTopComponent.open();
     }//GEN-LAST:event_jButton1ActionPerformed
 

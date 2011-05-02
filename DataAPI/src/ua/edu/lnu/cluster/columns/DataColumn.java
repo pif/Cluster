@@ -9,7 +9,9 @@ package ua.edu.lnu.cluster.columns;
  * @author pif
  */
 public abstract class DataColumn {
-
+    
+    private String name = "";
+    
     public abstract String getStringValue(int observation);
 
     public abstract double getNormalizedValue(int observation);
@@ -30,4 +32,13 @@ public abstract class DataColumn {
      * @return previous value
      */
     public abstract void setData(int observation, String value);
+    
+    public String getName() {
+        return name;
+    }
+    
+    public void setName(String name) {
+        this.name = name;
+    }
+    
 }
