@@ -12,7 +12,7 @@ import java.util.List;
  * @author pif
  */
 public interface Loader {
-    List<String[]> getObservation(String data);
+    String[] getObservation(String data);
     
     List<String[]> getData(BufferedReader reader);
 }

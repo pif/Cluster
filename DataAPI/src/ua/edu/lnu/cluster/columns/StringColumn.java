@@ -16,6 +16,10 @@ public class StringColumn implements DataColumn {
     
     private List<String> data = new ArrayList<String>();
 
+    public StringColumn() {
+    }
+
+    
     public StringColumn(Collection<String> chunks) {
         data.addAll(chunks);
     }
