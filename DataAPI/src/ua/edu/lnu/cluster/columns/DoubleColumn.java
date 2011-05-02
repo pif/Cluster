@@ -12,7 +12,7 @@ import java.util.List;
  *
  * @author pif
  */
-public class DoubleColumn implements DataColumn {
+public class DoubleColumn extends  DataColumn {
 
     private List<Double> data = new ArrayList<Double>();
     

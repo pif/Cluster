@@ -12,7 +12,7 @@ import java.util.List;
  *
  * @author pif
  */
-public class StringColumn implements DataColumn {
+public class StringColumn extends  DataColumn {
     
     private List<String> data = new ArrayList<String>();
 

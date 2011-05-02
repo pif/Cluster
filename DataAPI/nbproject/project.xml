@@ -6,7 +6,11 @@
             <code-name-base>ua.edu.lnu.cluster</code-name-base>
             <suite-component/>
             <module-dependencies/>
-            <public-packages/>
+            <public-packages>
+                <package>ua.edu.lnu.cluster</package>
+                <package>ua.edu.lnu.cluster.columns</package>
+                <package>ua.edu.lnu.cluster.loaders</package>
+            </public-packages>
         </data>
     </configuration>
 </project>

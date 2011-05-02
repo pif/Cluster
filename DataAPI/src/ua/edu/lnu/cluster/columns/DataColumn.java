@@ -8,20 +8,20 @@ package ua.edu.lnu.cluster.columns;
  * provides basic data column information
  * @author pif
  */
-public interface DataColumn {
+public abstract class DataColumn {
 
-    String getStringValue(int observation);
+    public abstract String getStringValue(int observation);
 
-    double getNormalizedValue(int observation);
+    public abstract double getNormalizedValue(int observation);
 
-    void addData(String value);
+    public abstract void addData(String value);
 
     /**
      *
      * @param observation
      * @return previous value
      */
-    void removeData(int observation);
+    public abstract void removeData(int observation);
 
     /**
      *
@@ -29,5 +29,5 @@ public interface DataColumn {
      * @param value
      * @return previous value
      */
-    void setData(int observation, String value);
+    public abstract void setData(int observation, String value);
 }
