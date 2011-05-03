@@ -7,12 +7,11 @@ package ua.edu.lnu.cluster;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import ua.edu.lnu.cluster.columns.DataColumn;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-import ua.edu.lnu.cluster.columns.StringColumn;
+import ua.edu.lnu.cluster.interpreters.StringInterpreter;
 
 /**
  * class which represents clustering data
@@ -33,7 +32,7 @@ public class DataModel {
             int featureCount = observation.length;
 
             for (int i = 0; i < featureCount; i++) {
-                DataColumn column = new StringColumn();
+                DataColumn column = new StringInterpreter();
                 column.setName(headers.get(i));
                 
                 dataColumns.add(column);

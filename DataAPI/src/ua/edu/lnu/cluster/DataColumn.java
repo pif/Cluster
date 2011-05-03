@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package ua.edu.lnu.cluster.columns;
+package ua.edu.lnu.cluster;
 
 /**
  * provides basic data column information
@@ -10,20 +10,22 @@ package ua.edu.lnu.cluster.columns;
  */
 public abstract class DataColumn {
     
+    private DataInterpreter interpreter = null;
+    
     private String name = "";
     
-    public abstract String getStringValue(int observation);
+    public String getOriginalValue(int observation){}
 
-    public abstract double getNormalizedValue(int observation);
+    public double getNormalizedValue(int observation){}
 
-    public abstract void addData(String value);
+    public void addData(String value){}
 
     /**
      *
      * @param observation
      * @return previous value
      */
-    public abstract void removeData(int observation);
+    public void removeData(int observation){}
 
     /**
      *
@@ -31,7 +33,7 @@ public abstract class DataColumn {
      * @param value
      * @return previous value
      */
-    public abstract void setData(int observation, String value);
+    public void setData(int observation, String value){}
     
     public String getName() {
         return name;
