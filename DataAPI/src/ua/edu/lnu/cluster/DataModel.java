@@ -32,7 +32,7 @@ public class DataModel {
             int featureCount = observation.length;
 
             for (int i = 0; i < featureCount; i++) {
-                DataColumn column = new StringInterpreter();
+                DataColumn column = new DataColumn();
                 column.setName(headers.get(i));
                 
                 dataColumns.add(column);

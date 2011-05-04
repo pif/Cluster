@@ -16,25 +16,21 @@ import ua.edu.lnu.cluster.DataInterpreter;
 @ServiceProvider(service=DataInterpreter.class)
 public class DoubleInterpreter implements DataInterpreter {
 
+    private List<Double> res = new ArrayList<Double>();
+    
     @Override
     public double convertValue(String value) {
         return Double.parseDouble(value);
     }
 
     @Override
-    public String getName() {
+    public String toString() {
         return "Double values";
     }
 
     @Override
-    public List<Double> convertData(List<String> data) {
-        List<Double> res = new ArrayList<Double>(data.size());
-        
-        for (int i = 0; i < data.size(); i++) {
-            res.set(i, convertValue(data.get(i)));
-        }
-        
-        return res;
+    public void processData(List<String> data) {
+        // nothing to do. this 
     }
 
 }

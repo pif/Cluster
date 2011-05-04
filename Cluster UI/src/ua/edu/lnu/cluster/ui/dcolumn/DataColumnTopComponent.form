@@ -97,6 +97,9 @@
           </StringArray>
         </Property>
       </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JComboBox(new InterpretersModel())"/>
+      </AuxValues>
     </Component>
   </SubComponents>
 </Form>

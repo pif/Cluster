@@ -13,7 +13,5 @@ import java.util.List;
 public interface DataInterpreter {
     double convertValue(String value);
     
-    String getName();
-    
-    List<Double> convertData(List<String> data);
+    void processData(List<String> data);
 }
