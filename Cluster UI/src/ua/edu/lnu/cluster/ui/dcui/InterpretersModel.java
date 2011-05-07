@@ -23,7 +23,7 @@ public class InterpretersModel extends DefaultComboBoxModel {
     private List<Object> interpreters = null;
 
     public InterpretersModel() {
-        Collection<DataInterpreter> lookupInterps = (Collection<DataInterpreter>) Lookup.getDefault().lookupAll(DataInterpreter.class);
+        Collection<? extends DataInterpreter> lookupInterps = (Collection<? extends DataInterpreter>) Lookup.getDefault().lookupAll(DataInterpreter.class);
         interpreters = Arrays.asList(lookupInterps.toArray());
     }
 

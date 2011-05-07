@@ -36,12 +36,12 @@ public class CategoryInterpreter extends  DataInterpreter{
     @Override
     public void preprocessData(List<String> data) {
         dictionary.clear();
+        double categoryCounter = 0;
         for (String string : data) {
-            if (dictionary.containsKey(string)) {
-                dictionary.put(string, dictionary.get(string)+1d);
-            } else {
-                dictionary.put(string, 1d);
-            }
+            if (!dictionary.containsKey(string)) {
+                dictionary.put(string, categoryCounter);
+                categoryCounter++;
+            } 
         }
     }
     

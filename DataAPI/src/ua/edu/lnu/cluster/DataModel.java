@@ -6,12 +6,10 @@ package ua.edu.lnu.cluster;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-import ua.edu.lnu.cluster.interpreters.StringInterpreter;
 
 /**
  * class which represents clustering data
@@ -24,7 +22,7 @@ public class DataModel {
     private List<DataColumn> dataColumns = new ArrayList<DataColumn>();
     private List<Observation> observations = new ArrayList<Observation>();
     private String name = "Dataset";
-    private List listeners = Collections.synchronizedList(new LinkedList());
+    private List<PropertyChangeListener> listeners = Collections.synchronizedList(new LinkedList<PropertyChangeListener>());
 
     public DataModel(List<String[]> rawData, List<String> headers) {
         if (!rawData.isEmpty()) {

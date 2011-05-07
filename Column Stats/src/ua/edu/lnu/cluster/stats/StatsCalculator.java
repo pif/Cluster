@@ -31,7 +31,7 @@ public class StatsCalculator {
         this.values.clear();
         this.values.addAll(column.getNormalizedValues());
         Collections.sort(values);
-
+        
         dyskretnyy.clear();
         for (Double value : values) {
             if (dyskretnyy.containsKey(value)) {
