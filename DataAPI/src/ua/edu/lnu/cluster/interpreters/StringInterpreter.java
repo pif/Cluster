@@ -18,7 +18,7 @@ public class StringInterpreter extends  DataInterpreter {
 
     @Override
     public double convertValue(String value) {
-        return -1;
+        return Double.NaN;
     }
 
     @Override

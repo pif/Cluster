@@ -5,6 +5,7 @@
 package ua.edu.lnu.cluster;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import ua.edu.lnu.cluster.interpreters.StringInterpreter;
 
@@ -17,6 +18,7 @@ public class DataColumn {
     private DataInterpreter interpreter = new StringInterpreter();
     private String name = "";
     private List<String> values = new ArrayList<String>();
+    private List<Double> normalized = new ArrayList<Double>();
     private boolean usedInCalculations = true;
 
     public boolean isUsedInCalculations() {
@@ -32,13 +34,19 @@ public class DataColumn {
     }
 
     public double getNormalizedValue(int observation) {
-        return interpreter.convertValue(values.get(observation));
+        return normalized.get(observation);
+        //return ;
     }
 
     public void addData(String value) {
         if (value != null) {
             values.add(value);
+            normalized.add(interpreter.convertValue(value));
         }
+    }
+    
+    public int getSize() {
+        return values.size();
     }
 
     /**
@@ -48,6 +56,7 @@ public class DataColumn {
      */
     public void removeData(int observation) {
         values.remove(observation);
+        normalized.remove(observation);
     }
 
     /**
@@ -59,6 +68,7 @@ public class DataColumn {
     public void setData(int observation, String value) {
         if (value != null) {
             values.set(observation, value);
+            normalized.set(observation, interpreter.convertValue(value));
         }
     }
 
@@ -76,6 +86,9 @@ public class DataColumn {
 
     public void setInterpreter(DataInterpreter interpreter) {
         this.interpreter = interpreter;
+        for (int i = 0; i < values.size(); i++) {
+            normalized.set(i, interpreter.convertValue(values.get(i)));            
+        }
     }
 
     @Override
@@ -83,5 +96,7 @@ public class DataColumn {
         return getName()+"/"+interpreter;
     }
     
-    
+    public List<Double> getNormalizedValues() {
+        return Collections.unmodifiableList(normalized);
+    }
 }
