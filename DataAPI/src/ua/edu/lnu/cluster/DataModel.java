@@ -6,6 +6,7 @@ package ua.edu.lnu.cluster;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -20,9 +21,10 @@ public class DataModel {
     public static final String PROP_NAME = "name";
     public static final String PROP_DATA = "dataChange";
     private List<DataColumn> dataColumns = new ArrayList<DataColumn>();
+
     private List<Observation> observations = new ArrayList<Observation>();
     private String name = "Dataset";
-    private List<PropertyChangeListener> listeners = Collections.synchronizedList(new LinkedList<PropertyChangeListener>());
+    private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 
     public DataModel(List<String[]> rawData, List<String> headers) {
         if (!rawData.isEmpty()) {
@@ -66,7 +68,7 @@ public class DataModel {
         }
         observations.remove(id);
 
-        fire(PROP_DATA, null, null);
+        pcs.firePropertyChange(PROP_DATA, null, observations);
     }
 
 //    public void addObservation(Object[] observation) {
@@ -93,21 +95,21 @@ public class DataModel {
     }
 
     public void setName(String name) {
+        String oldName = this.name;
         this.name = name == null ? "" : name;
+        pcs.firePropertyChange(PROP_NAME, oldName, this.name);
     }
 
     public void addPropertyChangeListener(PropertyChangeListener pcl) {
-        listeners.add(pcl);
+        pcs.addPropertyChangeListener(pcl);
     }
 
     public void removePropertyChangeListener(PropertyChangeListener pcl) {
-        listeners.remove(pcl);
+        pcs.removePropertyChangeListener(pcl);
     }
-
-    private void fire(String propertyName, Object old, Object nue) {
-        for (Object object : listeners) {
-            PropertyChangeListener pcl = (PropertyChangeListener) object;
-            pcl.propertyChange(new PropertyChangeEvent(this, propertyName, old, nue));
-        }
+    
+    
+    public List<DataColumn> getDataColumns() {
+        return Collections.unmodifiableList(dataColumns);
     }
 }

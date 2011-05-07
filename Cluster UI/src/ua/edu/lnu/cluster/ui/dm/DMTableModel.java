@@ -4,21 +4,28 @@
  */
 package ua.edu.lnu.cluster.ui.dm;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import javax.swing.event.TableModelEvent;
 import javax.swing.table.AbstractTableModel;
+import ua.edu.lnu.cluster.DataColumn;
 import ua.edu.lnu.cluster.DataModel;
 
 /**
  *
  * @author pif
  */
-public class DMTableModel extends AbstractTableModel {
+public class DMTableModel extends AbstractTableModel implements PropertyChangeListener {
 
     private DataModel dataModel = null;
 
     public DMTableModel(DataModel dataModel) {
         this.dataModel = dataModel;
+        for (DataColumn dataColumn : dataModel.getDataColumns()) {
+            dataColumn.addPropertyChangeListener(this);
+        }
     }
-    
+
     @Override
     public int getRowCount() {
         return dataModel.getObservationCount();
@@ -39,5 +46,10 @@ public class DMTableModel extends AbstractTableModel {
         return dataModel.getDataColumn(i).getName();
     }
 
-    
+    @Override
+    public void propertyChange(PropertyChangeEvent pce) {
+        if (DataColumn.PROP_NAME.equals(pce.getPropertyName())) {
+            fireTableChanged(new TableModelEvent(this, TableModelEvent.HEADER_ROW));
+        }
+    }
 }

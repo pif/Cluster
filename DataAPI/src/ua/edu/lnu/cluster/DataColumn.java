@@ -4,6 +4,7 @@
  */
 package ua.edu.lnu.cluster;
 
+import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -21,13 +22,12 @@ public class DataColumn {
     private List<String> values = new ArrayList<String>();
     private List<Double> normalized = new ArrayList<Double>();
     private boolean usedInCalculations = true;
-
     public static final String PROP_NAME = "name";
     public static final String PROP_TYPE = "type";
     public static final String PROP_VALUES = "values";
     public static final String PROP_USED = "used";
     private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
-    
+
     public boolean isUsedInCalculations() {
         return usedInCalculations;
     }
@@ -37,7 +37,7 @@ public class DataColumn {
         this.usedInCalculations = usedInCalculations;
         pcs.firePropertyChange(PROP_USED, old, this.usedInCalculations);
     }
-    
+
     /**
      * 
      * @param observation index
@@ -62,7 +62,7 @@ public class DataColumn {
         if (value != null) {
             values.add(value);
             normalized.add(interpreter.convertValue(value));
-            pcs.firePropertyChange(PROP_VALUES,null, values);
+            pcs.firePropertyChange(PROP_VALUES, null, values);
         }
     }
 
@@ -78,7 +78,7 @@ public class DataColumn {
     public void removeData(int observation) {
         values.remove(observation);
         normalized.remove(observation);
-        pcs.firePropertyChange(PROP_VALUES,null, values);
+        pcs.firePropertyChange(PROP_VALUES, null, values);
     }
 
     /**
@@ -91,7 +91,7 @@ public class DataColumn {
         if (value != null) {
             values.set(observation, value);
             normalized.set(observation, interpreter.convertValue(value));
-            pcs.firePropertyChange(PROP_VALUES,null, values);
+            pcs.firePropertyChange(PROP_VALUES, null, values);
         }
     }
 
@@ -106,7 +106,7 @@ public class DataColumn {
     public void setName(String name) {
         String old = this.name;
         this.name = name;
-        pcs.firePropertyChange(PROP_NAME,old, this.name);
+        pcs.firePropertyChange(PROP_NAME, old, this.name);
     }
 
     public DataInterpreter getInterpreter() {
@@ -136,5 +136,15 @@ public class DataColumn {
 
     public List<Double> getNormalizedValues() {
         return Collections.unmodifiableList(normalized);
+    }
+
+    public synchronized void addPropertyChangeListener(
+            PropertyChangeListener listener) {
+        this.pcs.addPropertyChangeListener(listener);
+    }
+
+    public synchronized void removePropertyChangeListener(
+            PropertyChangeListener listener) {
+        this.pcs.removePropertyChangeListener(listener);
     }
 }
