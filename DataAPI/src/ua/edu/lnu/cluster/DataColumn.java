@@ -4,6 +4,7 @@
  */
 package ua.edu.lnu.cluster;
 
+import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -21,12 +22,20 @@ public class DataColumn {
     private List<Double> normalized = new ArrayList<Double>();
     private boolean usedInCalculations = true;
 
+    public static final String PROP_NAME = "name";
+    public static final String PROP_TYPE = "type";
+    public static final String PROP_VALUES = "values";
+    public static final String PROP_USED = "used";
+    private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
+    
     public boolean isUsedInCalculations() {
         return usedInCalculations;
     }
 
     public void setUsedInCalculations(boolean usedInCalculations) {
+        boolean old = this.usedInCalculations;
         this.usedInCalculations = usedInCalculations;
+        pcs.firePropertyChange(PROP_USED, old, this.usedInCalculations);
     }
     
     /**
@@ -53,6 +62,7 @@ public class DataColumn {
         if (value != null) {
             values.add(value);
             normalized.add(interpreter.convertValue(value));
+            pcs.firePropertyChange(PROP_VALUES,null, values);
         }
     }
 
@@ -68,6 +78,7 @@ public class DataColumn {
     public void removeData(int observation) {
         values.remove(observation);
         normalized.remove(observation);
+        pcs.firePropertyChange(PROP_VALUES,null, values);
     }
 
     /**
@@ -80,6 +91,7 @@ public class DataColumn {
         if (value != null) {
             values.set(observation, value);
             normalized.set(observation, interpreter.convertValue(value));
+            pcs.firePropertyChange(PROP_VALUES,null, values);
         }
     }
 
@@ -92,7 +104,9 @@ public class DataColumn {
     }
 
     public void setName(String name) {
+        String old = this.name;
         this.name = name;
+        pcs.firePropertyChange(PROP_NAME,old, this.name);
     }
 
     public DataInterpreter getInterpreter() {
@@ -106,11 +120,13 @@ public class DataColumn {
      * @param interpreter implementation of DataInterpreter interface.
      */
     public void setInterpreter(DataInterpreter interpreter) {
+        DataInterpreter old = this.interpreter;
         this.interpreter = interpreter;
         interpreter.preprocessData(values);
         for (int i = 0; i < values.size(); i++) {
             normalized.set(i, interpreter.convertValue(values.get(i)));
         }
+        pcs.firePropertyChange(PROP_TYPE, old, this.interpreter);
     }
 
     @Override
