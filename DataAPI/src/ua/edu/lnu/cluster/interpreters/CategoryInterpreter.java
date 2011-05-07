@@ -24,7 +24,7 @@ public class CategoryInterpreter extends  DataInterpreter{
         if (dictionary.containsKey(value)) {
             return dictionary.get(value);
         } else {
-            return -1;
+            return Double.NaN;
         }
     }
 
