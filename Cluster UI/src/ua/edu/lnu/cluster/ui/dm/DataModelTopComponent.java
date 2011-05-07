@@ -36,34 +36,33 @@ public final class DataModelTopComponent extends TopComponent {
 
         @Override
         public void valueChanged(ListSelectionEvent lse) {
-            if (selectedColumn != null) {
-                content.remove(selectedColumn);
-            }            
-            
-            if (jTable1.getSelectedColumnCount()>0) {
-                selectedColumn = dataModel.getDataColumn(jTable1.getSelectedColumns()[0]);
-            } else {
-                selectedColumn = null;
+            if (jTable1.getSelectedColumnCount() <= 0) {
+                if (selectedColumn != null) {
+                    content.remove(selectedColumn);
+                    selectedColumn = null;
+                }
+                return;
             }
-            
-            if (selectedColumn != null) {
+
+            DataColumn selected = dataModel.getDataColumn(jTable1.getSelectedColumns()[0]);
+
+            if (selected != selectedColumn) {
+                if (selectedColumn != null) {
+                    content.remove(selectedColumn);
+                }
+                selectedColumn = selected;
                 content.add(selectedColumn);
             }
         }
-
     }
-
     private DataModel dataModel = new DataModel();
     private DataColumn selectedColumn = null;
-    
     private final InstanceContent content = new InstanceContent();
-    
+
     public DataModelTopComponent() {
         this(new DataModel());
     }
-    
-    
-    
+
     public DataModelTopComponent(DataModel model) {
         initComponents();
         setName(NbBundle.getMessage(DataModelTopComponent.class, "CTL_DataModelTopComponent"));
@@ -117,11 +116,11 @@ public final class DataModelTopComponent extends TopComponent {
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
+
     @Override
     public void componentOpened() {
         // TODO add custom code on component opening
