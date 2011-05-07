@@ -14,6 +14,7 @@ import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
 import org.openide.util.lookup.AbstractLookup;
 import org.openide.util.lookup.InstanceContent;
+import ua.edu.lnu.cluster.DataColumn;
 import ua.edu.lnu.cluster.DataModel;
 
 /**
@@ -24,7 +25,7 @@ autostore = false)
 @TopComponent.Description(preferredID = "DataModelTopComponent",
 iconBase = "ua/edu/lnu/cluster/ui/dm/dm.png",
 persistenceType = TopComponent.PERSISTENCE_ALWAYS)
-@TopComponent.Registration(mode = "editor", openAtStartup = true)
+@TopComponent.Registration(mode = "editor", openAtStartup = false)
 @ActionID(category = "Window", id = "ua.edu.lnu.cluster.ui.dm.DataModelTopComponent")
 @ActionReference(path = "Menu/Window" /*, position = 333 */)
 @TopComponent.OpenActionRegistration(displayName = "#CTL_DataModelAction",
@@ -35,15 +36,28 @@ public final class DataModelTopComponent extends TopComponent {
 
         @Override
         public void valueChanged(ListSelectionEvent lse) {
+            if (selectedColumn != null) {
+                content.remove(selectedColumn);
+            }            
+            
             if (jTable1.getSelectedColumnCount()>0) {
-                content.add(dataModel.getDataColumn(jTable1.getSelectedColumns()[0]));
+                selectedColumn = dataModel.getDataColumn(jTable1.getSelectedColumns()[0]);
+            } else {
+                selectedColumn = null;
+            }
+            
+            if (selectedColumn != null) {
+                content.add(selectedColumn);
             }
         }
 
     }
 
     private DataModel dataModel = new DataModel();
+    private DataColumn selectedColumn = null;
+    
     private final InstanceContent content = new InstanceContent();
+    
     public DataModelTopComponent() {
         this(new DataModel());
     }

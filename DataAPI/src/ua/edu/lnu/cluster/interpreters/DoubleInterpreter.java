@@ -14,18 +14,18 @@ import ua.edu.lnu.cluster.DataInterpreter;
  * @author pif
  */
 @ServiceProvider(service=DataInterpreter.class)
-public class DoubleInterpreter implements DataInterpreter {
+public class DoubleInterpreter extends  DataInterpreter {
 
+    @Override
+    public String getName() {
+        return "Double values";
+    }
+    
     private List<Double> res = new ArrayList<Double>();
     
     @Override
     public double convertValue(String value) {
         return Double.parseDouble(value);
-    }
-
-    @Override
-    public String toString() {
-        return "Double values";
     }
 
     @Override

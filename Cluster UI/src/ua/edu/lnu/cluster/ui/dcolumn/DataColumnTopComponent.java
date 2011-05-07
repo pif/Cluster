@@ -4,7 +4,12 @@
  */
 package ua.edu.lnu.cluster.ui.dcolumn;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.Collection;
+import org.openide.util.Exceptions;
 import org.openide.util.NbBundle;
 import org.openide.windows.TopComponent;
 import org.netbeans.api.settings.ConvertAsProperties;
@@ -15,6 +20,7 @@ import org.openide.util.LookupEvent;
 import org.openide.util.LookupListener;
 import org.openide.util.Utilities;
 import ua.edu.lnu.cluster.DataColumn;
+import ua.edu.lnu.cluster.DataInterpreter;
 
 /**
  * Top component which displays something.
@@ -22,7 +28,7 @@ import ua.edu.lnu.cluster.DataColumn;
 @ConvertAsProperties(dtd = "-//ua.edu.lnu.cluster.ui.dcolumn//DataColumn//EN",
 autostore = false)
 @TopComponent.Description(preferredID = "DataColumnTopComponent",
-//iconBase="SET/PATH/TO/ICON/HERE", 
+//iconBase="SET/PATH/TO/ICON/HERE",
 persistenceType = TopComponent.PERSISTENCE_ALWAYS)
 @TopComponent.Registration(mode = "properties", openAtStartup = true)
 @ActionID(category = "Window", id = "ua.edu.lnu.cluster.ui.dcolumn.DataColumnTopComponent")
@@ -33,7 +39,8 @@ public final class DataColumnTopComponent extends TopComponent implements Lookup
 
     private Lookup.Result result = null;
     private DataColumn column = null;
-    
+    private InterpretersModel interpretersModel = new InterpretersModel();
+
     public DataColumnTopComponent() {
         initComponents();
         setName(NbBundle.getMessage(DataColumnTopComponent.class, "CTL_DataColumnTopComponent"));
@@ -52,7 +59,7 @@ public final class DataColumnTopComponent extends TopComponent implements Lookup
         jTextField1 = new javax.swing.JTextField();
         jCheckBox1 = new javax.swing.JCheckBox();
         jLabel2 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox(new InterpretersModel());
+        jComboBox1 = new javax.swing.JComboBox();
 
         org.openide.awt.Mnemonics.setLocalizedText(jLabel1, org.openide.util.NbBundle.getMessage(DataColumnTopComponent.class, "DataColumnTopComponent.jLabel1.text")); // NOI18N
 
@@ -62,7 +69,7 @@ public final class DataColumnTopComponent extends TopComponent implements Lookup
 
         org.openide.awt.Mnemonics.setLocalizedText(jLabel2, org.openide.util.NbBundle.getMessage(DataColumnTopComponent.class, "DataColumnTopComponent.jLabel2.text")); // NOI18N
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox1.setModel(interpretersModel);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -71,16 +78,13 @@ public final class DataColumnTopComponent extends TopComponent implements Lookup
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jCheckBox1)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 323, Short.MAX_VALUE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(18, 18, 18)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jCheckBox1)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 323, Short.MAX_VALUE)
+                    .addComponent(jComboBox1, 0, 323, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -94,9 +98,9 @@ public final class DataColumnTopComponent extends TopComponent implements Lookup
                 .addComponent(jCheckBox1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(196, Short.MAX_VALUE))
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2))
+                .addGap(192, 192, 192))
         );
     }// </editor-fold>//GEN-END:initComponents
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -142,14 +146,63 @@ public final class DataColumnTopComponent extends TopComponent implements Lookup
         }
         updateWindow(column);
     }
-    
+
     private void updateWindow(DataColumn column) {
-        if (column!=null) {
-            
+        if (column != null) {
+            jTextField1.setText(column.getName());
+            jCheckBox1.setSelected(column.isUsedInCalculations());
+            jComboBox1.setSelectedItem(column.getInterpreter());
         }
     }
-    
-    private void updateColumn() {
-        
+
+    private void setUIListeners() {
+        jTextField1.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                if (column == null) {
+                    return;
+                }
+
+                column.setName(((javax.swing.JTextField)actionEvent.getSource()).getText());
+            }
+        });
+
+        jCheckBox1.addItemListener(new ItemListener() {
+
+            @Override
+            public void itemStateChanged(ItemEvent itemEvent) {
+                if (column == null) {
+                    return;
+                }
+                
+                int state = itemEvent.getStateChange();
+                if (state == ItemEvent.SELECTED) {
+                    column.setUsedInCalculations(((javax.swing.JCheckBox)itemEvent.getSource()).isSelected());
+                }
+            }
+        });
+
+        jComboBox1.addItemListener(new ItemListener() {
+
+            @Override
+            public void itemStateChanged(ItemEvent itemEvent) {
+                if (column == null) {
+                    return;
+                }
+                int state = itemEvent.getStateChange();
+                if (state == ItemEvent.SELECTED) {
+                    try {
+                        column.setInterpreter((DataInterpreter) ((javax.swing.JComboBox)itemEvent.getSource()).getSelectedItem().getClass().newInstance());
+                    } catch (InstantiationException ex) {
+                        Exceptions.printStackTrace(ex);
+                    } catch (IllegalAccessException ex) {
+                        Exceptions.printStackTrace(ex);
+                    }
+                }
+            }
+        });
+
+
     }
 }

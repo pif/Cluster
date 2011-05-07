@@ -17,7 +17,16 @@ public class DataColumn {
     private DataInterpreter interpreter = new StringInterpreter();
     private String name = "";
     private List<String> values = new ArrayList<String>();
+    private boolean usedInCalculations;
 
+    public boolean isUsedInCalculations() {
+        return usedInCalculations;
+    }
+
+    public void setUsedInCalculations(boolean usedInCalculations) {
+        this.usedInCalculations = usedInCalculations;
+    }
+    
     public String getOriginalValue(int observation) {
         return values.get(observation);
     }
@@ -67,5 +76,12 @@ public class DataColumn {
 
     public void setInterpreter(DataInterpreter interpreter) {
         this.interpreter = interpreter;
-    }    
+    }
+
+    @Override
+    public String toString() {
+        return getName()+"/"+interpreter;
+    }
+    
+    
 }

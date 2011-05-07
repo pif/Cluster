@@ -15,7 +15,7 @@ import ua.edu.lnu.cluster.DataInterpreter;
  * @author pif
  */
 @ServiceProvider(service=DataInterpreter.class)
-public class CategoryInterpreter implements DataInterpreter{
+public class CategoryInterpreter extends  DataInterpreter{
 
     private Map<String, Double> dictionary = new HashMap<String, Double>();
     
@@ -29,7 +29,7 @@ public class CategoryInterpreter implements DataInterpreter{
     }
 
     @Override
-    public String toString() {
+    public String getName() {
             return "Categories";
     }
 

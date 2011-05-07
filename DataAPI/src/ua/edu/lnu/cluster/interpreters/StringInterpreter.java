@@ -14,7 +14,7 @@ import ua.edu.lnu.cluster.DataInterpreter;
  * @author pif
  */
 @ServiceProvider(service=DataInterpreter.class)
-public class StringInterpreter implements DataInterpreter {
+public class StringInterpreter extends  DataInterpreter {
 
     @Override
     public double convertValue(String value) {
@@ -22,7 +22,7 @@ public class StringInterpreter implements DataInterpreter {
     }
 
     @Override
-    public String toString() {
+    public String getName() {
         return "Simple text";
     }
 
