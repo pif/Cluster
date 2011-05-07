@@ -86,6 +86,7 @@ public class DataColumn {
 
     public void setInterpreter(DataInterpreter interpreter) {
         this.interpreter = interpreter;
+        interpreter.preprocessData(values);
         for (int i = 0; i < values.size(); i++) {
             normalized.set(i, interpreter.convertValue(values.get(i)));            
         }

@@ -14,7 +14,7 @@ public abstract class DataInterpreter {
 
     public abstract double convertValue(String value);
 
-    public abstract void processData(List<String> data);
+    public abstract void preprocessData(List<String> data);
 
     public abstract String getName();
 

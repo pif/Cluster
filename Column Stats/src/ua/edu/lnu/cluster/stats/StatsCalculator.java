@@ -37,7 +37,7 @@ public class StatsCalculator {
             if (dyskretnyy.containsKey(value)) {
                 dyskretnyy.put(value, dyskretnyy.get(value) + 1);
             } else {
-                dyskretnyy.put(value, 0);
+                dyskretnyy.put(value, 1);
             }
         }
     }

@@ -27,7 +27,7 @@ public class StringInterpreter extends  DataInterpreter {
     }
 
     @Override
-    public void processData(List<String> data) {
+    public void preprocessData(List<String> data) {
         // do nothing
     }
     
