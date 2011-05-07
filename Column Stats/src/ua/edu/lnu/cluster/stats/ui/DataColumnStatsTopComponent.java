@@ -219,7 +219,7 @@ public final class DataColumnStatsTopComponent extends TopComponent implements L
         Collection c = r.allInstances();
         if (!c.isEmpty()) {
             DataColumn column = (DataColumn) c.iterator().next();
-            setName("Stats for: ["+column.getName()+"]");
+            setName("Stats for ["+column.getName()+"]");
             calculator.setColumn(column);
             
             jTextField1.setText(calculator.getModa()+"");

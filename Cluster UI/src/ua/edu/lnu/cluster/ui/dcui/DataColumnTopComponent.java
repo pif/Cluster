@@ -143,9 +143,10 @@ public final class DataColumnTopComponent extends TopComponent implements Lookup
         Collection c = r.allInstances();
         if (!c.isEmpty()) {
             column = (DataColumn) c.iterator().next();
-        } else {
+            setName("Properties of ["+column.getName()+"]");
+        } /**else {
             column = null;
-        }
+        }*/
         updateWindow(column);
     }
 
