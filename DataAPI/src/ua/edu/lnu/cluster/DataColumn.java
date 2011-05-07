@@ -29,10 +29,21 @@ public class DataColumn {
         this.usedInCalculations = usedInCalculations;
     }
     
+    /**
+     * 
+     * @param observation index
+     * @return original value, from which everything was created
+     */
     public String getOriginalValue(int observation) {
         return values.get(observation);
     }
 
+    /**
+     * 
+     * @param observation
+     * @return value, which can be used in calculations. that's original value, 
+     * parsed through interpreter
+     */
     public double getNormalizedValue(int observation) {
         return normalized.get(observation);
         //return ;
@@ -44,7 +55,7 @@ public class DataColumn {
             normalized.add(interpreter.convertValue(value));
         }
     }
-    
+
     public int getSize() {
         return values.size();
     }
@@ -72,6 +83,10 @@ public class DataColumn {
         }
     }
 
+    /**
+     * 
+     * @return Meaningful name of the column.
+     */
     public String getName() {
         return name;
     }
@@ -84,19 +99,25 @@ public class DataColumn {
         return interpreter;
     }
 
+    /**
+     * Sets an interpreter, which is used to parse raw data 
+     * in the corresponding manner: as categories, as strings, 
+     * as double values and so on.
+     * @param interpreter implementation of DataInterpreter interface.
+     */
     public void setInterpreter(DataInterpreter interpreter) {
         this.interpreter = interpreter;
         interpreter.preprocessData(values);
         for (int i = 0; i < values.size(); i++) {
-            normalized.set(i, interpreter.convertValue(values.get(i)));            
+            normalized.set(i, interpreter.convertValue(values.get(i)));
         }
     }
 
     @Override
     public String toString() {
-        return getName()+"/"+interpreter;
+        return getName() + "/" + interpreter;
     }
-    
+
     public List<Double> getNormalizedValues() {
         return Collections.unmodifiableList(normalized);
     }
