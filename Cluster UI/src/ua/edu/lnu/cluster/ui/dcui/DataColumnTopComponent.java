@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package ua.edu.lnu.cluster.ui.dcolumn;
+package ua.edu.lnu.cluster.ui.dcui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -45,6 +45,8 @@ public final class DataColumnTopComponent extends TopComponent implements Lookup
         initComponents();
         setName(NbBundle.getMessage(DataColumnTopComponent.class, "CTL_DataColumnTopComponent"));
         setToolTipText(NbBundle.getMessage(DataColumnTopComponent.class, "HINT_DataColumnTopComponent"));
+        
+        setUIListeners();
     }
 
     /** This method is called from within the constructor to
@@ -152,6 +154,10 @@ public final class DataColumnTopComponent extends TopComponent implements Lookup
             jTextField1.setText(column.getName());
             jCheckBox1.setSelected(column.isUsedInCalculations());
             jComboBox1.setSelectedItem(column.getInterpreter());
+        } else {
+            jTextField1.setText("Select DataColumn");
+            jCheckBox1.setSelected(false);
+            jComboBox1.setSelectedItem(null);
         }
     }
 

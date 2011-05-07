@@ -17,7 +17,7 @@ public class DataColumn {
     private DataInterpreter interpreter = new StringInterpreter();
     private String name = "";
     private List<String> values = new ArrayList<String>();
-    private boolean usedInCalculations;
+    private boolean usedInCalculations = true;
 
     public boolean isUsedInCalculations() {
         return usedInCalculations;

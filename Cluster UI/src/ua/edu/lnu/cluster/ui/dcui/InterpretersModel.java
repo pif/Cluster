@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package ua.edu.lnu.cluster.ui.dcolumn;
+package ua.edu.lnu.cluster.ui.dcui;
 
 import java.util.Arrays;
 import java.util.Collection;
