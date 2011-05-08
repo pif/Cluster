@@ -16,7 +16,8 @@ public class EmptyDataValidator implements Validator{
 
     @Override
     public boolean isEntryValid(String entry) {
-        return entry!=null && !entry.isEmpty();
+        boolean valid = entry!=null && !entry.trim().isEmpty();
+        return valid;
     }
     
 }

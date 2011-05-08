@@ -38,9 +38,15 @@ public class DMTableModel extends AbstractTableModel implements PropertyChangeLi
 
     @Override
     public Object getValueAt(int row, int column) {
-        return dataModel.getObservation(row).getField(column);
+        return dataModel.getDataColumn(column).getOriginalValue(row);
     }
 
+    @Override
+    public void setValueAt(Object o, int row, int column) {
+        dataModel.getDataColumn(column).setData(row, (String)o);
+        fireTableCellUpdated(row, column);
+    }
+    
     @Override
     public String getColumnName(int i) {
         return dataModel.getDataColumn(i).getName();
@@ -51,6 +57,16 @@ public class DMTableModel extends AbstractTableModel implements PropertyChangeLi
         if (DataColumn.PROP_NAME.equals(pce.getPropertyName())) {
             fireTableChanged(new TableModelEvent(this, TableModelEvent.HEADER_ROW));
         }
+    }
+
+    @Override
+    public boolean isCellEditable(int i, int i1) {
+        return true;
+    }
+
+    @Override
+    public Class<?> getColumnClass(int i) {
+        return dataModel.getDataColumn(i).getInterpreter().getClass();
     }
     
     

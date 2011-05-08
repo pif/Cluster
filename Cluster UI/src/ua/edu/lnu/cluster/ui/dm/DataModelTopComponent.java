@@ -5,6 +5,7 @@
 package ua.edu.lnu.cluster.ui.dm;
 
 import java.util.Collections;
+import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import org.openide.util.NbBundle;
