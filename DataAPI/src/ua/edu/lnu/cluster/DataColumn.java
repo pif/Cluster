@@ -95,7 +95,7 @@ public class DataColumn {
             pcs.firePropertyChange(PROP_VALUES, null, values);
         }
     }
-    
+
     public void setTranslatedData(int observation, Object value) {
         if (value != null) {
             String str = interpreter.reverseTranslate(value);
@@ -104,7 +104,6 @@ public class DataColumn {
             pcs.firePropertyChange(PROP_VALUES, null, values);
         }
     }
-    
 
     /**
      * 
@@ -147,6 +146,10 @@ public class DataColumn {
 
     public List<Double> getNormalizedValues() {
         return Collections.unmodifiableList(normalized);
+    }
+
+    public List<String> getOriginalValues() {
+        return Collections.unmodifiableList(values);
     }
 
     public synchronized void addPropertyChangeListener(

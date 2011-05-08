@@ -5,6 +5,7 @@
 package ua.edu.lnu.cluster.interpreters.api;
 
 import java.util.List;
+import javax.swing.table.TableCellEditor;
 
 /**
  *
@@ -57,4 +58,14 @@ public abstract class DataInterpreter {
     public int hashCode() {
         return 37*getName().hashCode();
     }
+    
+    /**
+     * 
+     * @return 1) null if this class doesn't provide any custom renderer. 
+     * e.g. default renderer is enough
+     * 2) TableCellEditor which will be registered for this specific DataType.
+     
+    public TableCellEditor getCustomCellEditor() {
+        return null;
+    }*/
 }

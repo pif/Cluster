@@ -56,7 +56,7 @@ public class DMTableModel extends AbstractTableModel implements PropertyChangeLi
     public void propertyChange(PropertyChangeEvent pce) {
         if (DataColumn.PROP_NAME.equals(pce.getPropertyName())) {
             fireTableChanged(new TableModelEvent(this, TableModelEvent.HEADER_ROW));
-        }
+        } 
     }
 
     @Override
@@ -69,5 +69,13 @@ public class DMTableModel extends AbstractTableModel implements PropertyChangeLi
         return dataModel.getDataColumn(i).getInterpreter().getColumnClass();
     }
     
+
+    public DataModel getDataModel() {
+        return dataModel;
+    }
+
+    public void setDataModel(DataModel dataModel) {
+        this.dataModel = dataModel;
+    }
     
 }
