@@ -5,7 +5,6 @@
 package ua.edu.lnu.cluster.ui.dm;
 
 import java.util.Collections;
-import java.util.Set;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import org.openide.util.NbBundle;
@@ -13,12 +12,10 @@ import org.openide.windows.TopComponent;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
-import org.openide.util.Lookup;
 import org.openide.util.lookup.AbstractLookup;
 import org.openide.util.lookup.InstanceContent;
 import ua.edu.lnu.cluster.DataColumn;
 import ua.edu.lnu.cluster.DataModel;
-import ua.edu.lnu.cluster.interpreters.api.DataInterpreter;
 import ua.edu.lnu.cluster.ui.dm.editors.CategoryCellEditor;
 import ua.edu.lnu.cluster.ui.dm.renderers.ValidCellRenderer;
 
@@ -80,7 +77,7 @@ public final class DataModelTopComponent extends TopComponent {
         jTable1.setModel(new DMTableModel(dataModel));
         jTable1.getSelectionModel().addListSelectionListener(new DataColumnListener());
         jTable1.setDefaultRenderer(Object.class, new ValidCellRenderer());
-        jTable1.setDefaultEditor(Set.class, new CategoryCellEditor());
+        jTable1.setDefaultEditor(Integer.class, new CategoryCellEditor());
     }
 
     /** This method is called from within the constructor to

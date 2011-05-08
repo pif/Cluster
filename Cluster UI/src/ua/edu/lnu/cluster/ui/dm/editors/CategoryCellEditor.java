@@ -23,10 +23,8 @@ import ua.edu.lnu.cluster.ui.dm.DMTableModel;
 public class CategoryCellEditor extends AbstractCellEditor
         implements TableCellEditor {
 
-    private final JComboBox combobox = new JComboBox();
-    private final TableCellEditor defEditor = new DefaultCellEditor(combobox);
-    private DefaultComboBoxModel model = null;
-
+    private JComboBox combobox = new JComboBox();
+    
     @Override
     public Object getCellEditorValue() {
         return combobox.getSelectedItem();
@@ -34,11 +32,11 @@ public class CategoryCellEditor extends AbstractCellEditor
 
     @Override
     public Component getTableCellEditorComponent(JTable jtable, Object o, boolean bln, int i, int i1) {
-        List<String> values = ((DMTableModel)jtable.getColumnModel()).getDataModel().getDataColumn(i1).getOriginalValues();
+        List<String> values = ((DMTableModel)jtable.getModel()).getDataModel().getDataColumn(i1).getOriginalValues();
         Set<String> unique = new HashSet<String>(values);
-        model = new DefaultComboBoxModel(unique.toArray());
-        
+        DefaultComboBoxModel model = new DefaultComboBoxModel(unique.toArray());
         combobox.setModel(model);
-        return (Component) defEditor;
+        
+        return new DefaultCellEditor(combobox).getTableCellEditorComponent(jtable, o, bln, i, i1);
     }
 }

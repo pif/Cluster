@@ -7,7 +7,6 @@ package ua.edu.lnu.cluster.interpreters;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import org.openide.util.lookup.ServiceProvider;
 import ua.edu.lnu.cluster.interpreters.api.DataInterpreter;
 
@@ -48,7 +47,7 @@ public class CategoryInterpreter extends DataInterpreter {
 
     @Override
     public Class<?> getColumnClass() {
-        return Set.class;
+        return Integer.class;
     }
 
     /**
