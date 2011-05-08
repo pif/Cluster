@@ -11,13 +11,15 @@ import ua.edu.lnu.cluster.validators.api.Validator;
  *
  * @author pif
  */
-@ServiceProvider(service=Validator.class)
-public class EmptyDataValidator implements Validator{
+@ServiceProvider(service = Validator.class)
+public class EmptyDataValidator implements Validator {
 
     @Override
-    public boolean isEntryValid(String entry) {
-        boolean valid = entry!=null && !entry.trim().isEmpty();
-        return valid;
+    public int isEntryValid(Object entry) {
+        if (entry instanceof String) {
+            boolean valid = entry != null && !((String) entry).trim().isEmpty();
+            return valid ? Validator.LEVEL_GOOD : Validator.LEVEL_ERROR;
+        }
+        return LEVEL_GOOD;
     }
-    
 }

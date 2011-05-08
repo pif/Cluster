@@ -25,7 +25,11 @@ public class DoubleInterpreter extends  DataInterpreter {
     
     @Override
     public double convertValue(String value) {
-        return Double.parseDouble(value);
+        try {
+            return Double.parseDouble(value);
+        } catch (NumberFormatException ex) {
+            return Double.NaN;
+        }
     }
 
     @Override

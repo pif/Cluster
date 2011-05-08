@@ -9,5 +9,10 @@ package ua.edu.lnu.cluster.validators.api;
  * @author pif
  */
 public interface Validator {
-    boolean isEntryValid(String entry);
+    
+    public static int LEVEL_ERROR = 20;
+    public static int LEVEL_WARNING = 10;
+    public static int LEVEL_GOOD = 0;
+    
+    int isEntryValid(Object entry);
 }
