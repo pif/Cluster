@@ -52,4 +52,6 @@ public class DMTableModel extends AbstractTableModel implements PropertyChangeLi
             fireTableChanged(new TableModelEvent(this, TableModelEvent.HEADER_ROW));
         }
     }
+    
+    
 }

@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package ua.edu.lnu.cluster;
+package ua.edu.lnu.cluster.interpreters.api;
 
 import java.util.List;
 

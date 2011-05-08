@@ -12,7 +12,7 @@ import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.event.ListDataListener;
 import org.openide.util.Lookup;
-import ua.edu.lnu.cluster.DataInterpreter;
+import ua.edu.lnu.cluster.interpreters.api.DataInterpreter;
 
 /**
  *

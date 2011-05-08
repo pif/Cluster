@@ -16,6 +16,7 @@ import org.openide.util.lookup.AbstractLookup;
 import org.openide.util.lookup.InstanceContent;
 import ua.edu.lnu.cluster.DataColumn;
 import ua.edu.lnu.cluster.DataModel;
+import ua.edu.lnu.cluster.ui.dm.renderers.ValidCellRenderer;
 
 /**
  * Top component which displays something.
@@ -70,9 +71,11 @@ public final class DataModelTopComponent extends TopComponent {
 
         this.dataModel = model;
         associateLookup(new AbstractLookup(content));
+        content.set(Collections.singleton(this.dataModel), null);
+        
         jTable1.setModel(new DMTableModel(dataModel));
         jTable1.getSelectionModel().addListSelectionListener(new DataColumnListener());
-        content.set(Collections.singleton(this.dataModel), null);
+        jTable1.setDefaultRenderer(Object.class, new ValidCellRenderer());
     }
 
     /** This method is called from within the constructor to

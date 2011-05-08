@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.openide.util.lookup.ServiceProvider;
-import ua.edu.lnu.cluster.DataInterpreter;
+import ua.edu.lnu.cluster.interpreters.api.DataInterpreter;
 
 /**
  *

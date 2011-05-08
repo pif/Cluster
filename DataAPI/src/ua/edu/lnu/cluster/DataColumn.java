@@ -4,6 +4,7 @@
  */
 package ua.edu.lnu.cluster;
 
+import ua.edu.lnu.cluster.interpreters.api.DataInterpreter;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;

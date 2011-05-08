@@ -7,7 +7,7 @@ package ua.edu.lnu.cluster.interpreters;
 import java.util.Arrays;
 import java.util.List;
 import org.openide.util.lookup.ServiceProvider;
-import ua.edu.lnu.cluster.DataInterpreter;
+import ua.edu.lnu.cluster.interpreters.api.DataInterpreter;
 
 /**
  *

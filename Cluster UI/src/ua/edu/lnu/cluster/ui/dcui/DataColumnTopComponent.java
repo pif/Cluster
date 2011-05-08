@@ -20,7 +20,7 @@ import org.openide.util.LookupEvent;
 import org.openide.util.LookupListener;
 import org.openide.util.Utilities;
 import ua.edu.lnu.cluster.DataColumn;
-import ua.edu.lnu.cluster.DataInterpreter;
+import ua.edu.lnu.cluster.interpreters.api.DataInterpreter;
 
 /**
  * Top component which displays something.
