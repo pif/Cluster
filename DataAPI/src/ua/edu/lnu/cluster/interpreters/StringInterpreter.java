@@ -30,5 +30,16 @@ public class StringInterpreter extends  DataInterpreter {
     public void preprocessData(List<String> data) {
         // do nothing
     }
+
+    @Override
+    public Class<?> getColumnClass() {
+        return String.class;
+    }
+
+    @Override
+    public String reverseTranslate(Object value) {
+        return (String)value;
+    }
+    
     
 }

@@ -43,7 +43,7 @@ public class DMTableModel extends AbstractTableModel implements PropertyChangeLi
 
     @Override
     public void setValueAt(Object o, int row, int column) {
-        dataModel.getDataColumn(column).setData(row, (String)o);
+        dataModel.getDataColumn(column).setTranslatedData(row, o);
         fireTableCellUpdated(row, column);
     }
     
@@ -66,7 +66,7 @@ public class DMTableModel extends AbstractTableModel implements PropertyChangeLi
 
     @Override
     public Class<?> getColumnClass(int i) {
-        return dataModel.getDataColumn(i).getInterpreter().getClass();
+        return dataModel.getDataColumn(i).getInterpreter().getColumnClass();
     }
     
     

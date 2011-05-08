@@ -14,9 +14,24 @@ public abstract class DataInterpreter {
 
     public abstract double convertValue(String value);
 
+    /**
+     * we wish that table columns use default renderer/cell editors for 
+     * specific columns. Column class is taken from getColumnClass() method.
+     * This means that the underlying interpreter always knows which type it's
+     * dealing with. So, one can easily cast (Object)value -> (WhatEver)value
+     * @param value instance of getColumnClass() class.
+     * @return string representation, will be saved 
+     * in the DataModel as raw data.
+     */
+    public abstract String reverseTranslate(Object value);
+
     public abstract void preprocessData(List<String> data);
 
     public abstract String getName();
+    
+    public Class<?> getColumnClass() {
+        return Object.class;
+    }
 
     @Override
     public String toString() {

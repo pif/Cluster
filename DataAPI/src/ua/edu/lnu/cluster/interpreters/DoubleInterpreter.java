@@ -33,4 +33,16 @@ public class DoubleInterpreter extends  DataInterpreter {
         // nothing to do.
     }
 
+    @Override
+    public Class<?> getColumnClass() {
+        return Double.class;
+    }
+
+    @Override
+    public String reverseTranslate(Object value) {
+        return Double.toString((Double)value);
+    }
+    
+    
+
 }

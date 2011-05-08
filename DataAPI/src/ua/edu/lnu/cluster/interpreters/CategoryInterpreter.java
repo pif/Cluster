@@ -44,5 +44,23 @@ public class CategoryInterpreter extends  DataInterpreter{
             } 
         }
     }
+
+    @Override
+    public Class<?> getColumnClass() {
+        return CategoryInterpreter.class;
+    }
+
+    /**
+     * it's waiting for a string representation of category.
+     * CellEditor, responsible for CategoryInterpreter will show a JCombobox 
+     * with available values, taken from dictionary.
+     * @param value
+     * @return 
+     */
+    @Override
+    public String reverseTranslate(Object value) {
+        return (String)value;
+    }
+    
     
 }

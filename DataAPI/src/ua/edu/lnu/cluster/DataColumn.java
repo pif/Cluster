@@ -95,6 +95,16 @@ public class DataColumn {
             pcs.firePropertyChange(PROP_VALUES, null, values);
         }
     }
+    
+    public void setTranslatedData(int observation, Object value) {
+        if (value != null) {
+            String str = interpreter.reverseTranslate(value);
+            values.set(observation, str);
+            normalized.set(observation, interpreter.convertValue(str));
+            pcs.firePropertyChange(PROP_VALUES, null, values);
+        }
+    }
+    
 
     /**
      * 
