@@ -16,6 +16,7 @@ import org.openide.util.lookup.AbstractLookup;
 import org.openide.util.lookup.InstanceContent;
 import ua.edu.lnu.cluster.DataColumn;
 import ua.edu.lnu.cluster.DataModel;
+import ua.edu.lnu.cluster.ui.api.TCManager;
 import ua.edu.lnu.cluster.ui.dm.editors.CategoryCellEditor;
 import ua.edu.lnu.cluster.ui.dm.renderers.ValidCellRenderer;
 
@@ -57,12 +58,12 @@ public final class DataModelTopComponent extends TopComponent {
             }
         }
     }
-    private DataModel dataModel = new DataModel();
+    private DataModel dataModel = null;
     private DataColumn selectedColumn = null;
     private final InstanceContent content = new InstanceContent();
 
     public DataModelTopComponent() {
-        this(new DataModel());
+        this(null);
     }
 
     public DataModelTopComponent(DataModel model) {
@@ -70,14 +71,16 @@ public final class DataModelTopComponent extends TopComponent {
         setName(NbBundle.getMessage(DataModelTopComponent.class, "CTL_DataModelTopComponent"));
         setToolTipText(NbBundle.getMessage(DataModelTopComponent.class, "HINT_DataModelTopComponent"));
 
-        this.dataModel = model;
-        associateLookup(new AbstractLookup(content));
-        content.set(Collections.singleton(this.dataModel), null);
-        
-        jTable1.setModel(new DMTableModel(dataModel));
-        jTable1.getSelectionModel().addListSelectionListener(new DataColumnListener());
-        jTable1.setDefaultRenderer(Object.class, new ValidCellRenderer());
-        jTable1.setDefaultEditor(Integer.class, new CategoryCellEditor());
+        if (model != null) {
+            this.dataModel = model;
+            associateLookup(new AbstractLookup(content));
+            content.set(Collections.singleton(this.dataModel), null);
+
+            jTable1.setModel(new DMTableModel(dataModel));
+            jTable1.getSelectionModel().addListSelectionListener(new DataColumnListener());
+            jTable1.setDefaultRenderer(Object.class, new ValidCellRenderer());
+            jTable1.setDefaultEditor(Integer.class, new CategoryCellEditor());
+        }
     }
 
     /** This method is called from within the constructor to
@@ -134,6 +137,7 @@ public final class DataModelTopComponent extends TopComponent {
     @Override
     public void componentClosed() {
         // TODO add custom code on component closing
+        TCManager.getInstance().onDataModelClose(dataModel);
     }
 
     void writeProperties(java.util.Properties p) {

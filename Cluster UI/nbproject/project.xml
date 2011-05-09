@@ -72,7 +72,9 @@
                     </run-dependency>
                 </dependency>
             </module-dependencies>
-            <public-packages/>
+            <public-packages>
+                <package>ua.edu.lnu.cluster.ui.api</package>
+            </public-packages>
         </data>
     </configuration>
 </project>

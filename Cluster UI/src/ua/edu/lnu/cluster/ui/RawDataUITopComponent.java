@@ -12,7 +12,9 @@ import org.netbeans.api.settings.ConvertAsProperties;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
 import org.openide.util.Lookup;
+import ua.edu.lnu.cluster.DataModel;
 import ua.edu.lnu.cluster.loaders.api.Loader;
+import ua.edu.lnu.cluster.ui.api.TCManager;
 import ua.edu.lnu.cluster.ui.dm.DataModelTopComponent;
 
 /**
@@ -31,7 +33,7 @@ preferredID = "RawDataUITopComponent")
 public final class RawDataUITopComponent extends TopComponent {
 
     private Loader loader = Lookup.getDefault().lookup(Loader.class);
-    
+
     public RawDataUITopComponent() {
         initComponents();
         setName(NbBundle.getMessage(RawDataUITopComponent.class, "CTL_RawDataUITopComponent"));
@@ -100,11 +102,9 @@ public final class RawDataUITopComponent extends TopComponent {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        
-        TopComponent dataModelTopComponent = new DataModelTopComponent(loader.getData(new BufferedReader(new StringReader(jTextField1.getText()+"\n"+jTextArea1.getText())), true));
-        dataModelTopComponent.open();
+        DataModel model = loader.getData(new BufferedReader(new StringReader(jTextField1.getText() + "\n" + jTextArea1.getText())), true);
+        TCManager.getInstance().openDataModelWindow(model);
     }//GEN-LAST:event_jButton1ActionPerformed
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
@@ -112,6 +112,7 @@ public final class RawDataUITopComponent extends TopComponent {
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
+
     @Override
     public void componentOpened() {
         // TODO add custom code on component opening

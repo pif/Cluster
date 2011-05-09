@@ -4,6 +4,7 @@
  */
 package ua.edu.lnu.cluster.project;
 
+import ua.edu.lnu.cluster.project.view.ClusterProjectLogicalView;
 import java.io.IOException;
 import org.netbeans.api.project.Project;
 import org.netbeans.spi.project.ProjectState;
@@ -12,6 +13,10 @@ import org.openide.filesystems.FileSystem;
 import org.openide.util.Exceptions;
 import org.openide.util.Lookup;
 import org.openide.util.lookup.Lookups;
+import ua.edu.lnu.cluster.project.actions.ActionProviderImpl;
+import ua.edu.lnu.cluster.project.actions.CopyOperation;
+import ua.edu.lnu.cluster.project.actions.DeleteOperation;
+import ua.edu.lnu.cluster.project.actions.Info;
 
 /**
  *
@@ -33,18 +38,7 @@ public class DataModelProject implements Project{
         return projectDir;
     }
 
-    @Override
-    public Lookup getLookup() {
-        if (lookup == null) {
-            lookup = Lookups.fixed(new Object[] {
-                state
-                // TODO add actions.
-            });
-        }
-        return lookup;
-    }
-
-    FileObject getClusterFolder(boolean create) {
+    public FileObject getClusterFolder(boolean create) {
         FileObject res = projectDir.getFileObject(DataModelPrjFactory.PROJECT_DIR);
         if (res == null && create) {
             try {
@@ -56,5 +50,22 @@ public class DataModelProject implements Project{
         
         return res;
     }
+
+    //The project type's capabilities are registered in the project's lookup:
+    @Override
+    public Lookup getLookup() {
+        if (lookup == null) {
+            lookup = Lookups.fixed(new Object[]{
+                        state, //allow outside code to mark the project as needing saving
+                        new ActionProviderImpl(this), //Provides standard actions like Build and Clean
+                        new DeleteOperation(this),
+                        new CopyOperation(this),
+                        new Info(this), //Project information implementation
+                        new ClusterProjectLogicalView(this), //Logical view of project implementation
+                    });
+        }
+        return lookup;
+    }
+
     
 }
