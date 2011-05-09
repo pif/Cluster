@@ -21,7 +21,7 @@ import ua.edu.lnu.cluster.project.DataModelProject;
  *
  * @author pif
  */
-class ClusterProjectLogicalView implements LogicalViewProvider {
+public class ClusterProjectLogicalView implements LogicalViewProvider {
 
     private final DataModelProject project;
 

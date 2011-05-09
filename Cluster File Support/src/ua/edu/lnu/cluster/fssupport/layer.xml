@@ -64,6 +64,7 @@
                 </folder>
                 <folder name="Factories">
                     <file name="DataModelDataLoader.instance">
+                        <attr name="SystemFileSystem.icon" urlvalue="nbresloc:/ua/edu/lnu/cluster/fssupport/dm.png"/>
                         <attr name="dataObjectClass" stringvalue="ua.edu.lnu.cluster.fssupport.DataModelDataObject"/>
                         <attr name="instanceCreate" methodvalue="org.openide.loaders.DataLoaderPool.factory"/>
                         <attr name="mimeType" stringvalue="text/cluster+xml"/>
@@ -131,8 +132,8 @@
                 </folder>
                 <folder name="Factories">
                     <file name="DataSetDataLoader.instance">
-                        <attr name="SystemFileSystem.icon" urlvalue="nbresloc:/ua/edu/lnu/cluster/fssupport/datafile/dbfile.png"/>
-                        <attr name="dataObjectClass" stringvalue="ua.edu.lnu.cluster.fssupport.datafile.DataSetDataObject"/>
+                        <attr name="SystemFileSystem.icon" urlvalue="nbresloc:/ua/edu/lnu/cluster/fssupport/dbfile.png"/>
+                        <attr name="dataObjectClass" stringvalue="ua.edu.lnu.cluster.fssupport.DataSetDataObject"/>
                         <attr name="instanceCreate" methodvalue="org.openide.loaders.DataLoaderPool.factory"/>
                         <attr name="mimeType" stringvalue="text/dataset"/>
                     </file>

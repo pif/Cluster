@@ -7,6 +7,7 @@ package ua.edu.lnu.cluster;
 import ua.edu.lnu.cluster.interpreters.api.DataInterpreter;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -16,8 +17,10 @@ import ua.edu.lnu.cluster.interpreters.StringInterpreter;
  * provides basic data column information
  * @author pif
  */
-public class DataColumn {
+public class DataColumn implements Serializable{
+    private static final long serialVersionUID = 1L;
 
+    
     private DataInterpreter interpreter = new StringInterpreter();
     private String name = "";
     private List<String> values = new ArrayList<String>();

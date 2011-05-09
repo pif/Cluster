@@ -4,28 +4,31 @@
  */
 package ua.edu.lnu.cluster;
 
-import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 
 /**
  * class which represents clustering data
  * @author pif
  */
-public class DataModel {
+public class DataModel implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     public static final String PROP_NAME = "name";
     public static final String PROP_DATA = "dataChange";
     private List<DataColumn> dataColumns = new ArrayList<DataColumn>();
-
     private List<Observation> observations = new ArrayList<Observation>();
     private String name = "Dataset";
     private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 
+    public DataModel(List<String[]> rawData) {
+        this(rawData, Collections.EMPTY_LIST);
+    }
+    
     public DataModel(List<String[]> rawData, List<String> headers) {
         if (!rawData.isEmpty()) {
             String[] observation = rawData.get(0);
@@ -33,8 +36,9 @@ public class DataModel {
 
             for (int i = 0; i < featureCount; i++) {
                 DataColumn column = new DataColumn();
-                column.setName(headers.get(i));
-                
+                String header = i < headers.size() ? headers.get(i) : "Column " + i;
+                column.setName(header);
+
                 dataColumns.add(column);
             }
 
@@ -85,7 +89,7 @@ public class DataModel {
     public Observation getObservation(int index) {
         return observations.get(index);
     }
-    
+
     public DataColumn getDataColumn(int index) {
         return dataColumns.get(index);
     }
@@ -107,8 +111,7 @@ public class DataModel {
     public void removePropertyChangeListener(PropertyChangeListener pcl) {
         pcs.removePropertyChangeListener(pcl);
     }
-    
-    
+
     public List<DataColumn> getDataColumns() {
         return Collections.unmodifiableList(dataColumns);
     }

@@ -9,7 +9,6 @@ import java.io.IOException;
 import org.netbeans.api.project.Project;
 import org.netbeans.spi.project.ProjectState;
 import org.openide.filesystems.FileObject;
-import org.openide.filesystems.FileSystem;
 import org.openide.util.Exceptions;
 import org.openide.util.Lookup;
 import org.openide.util.lookup.Lookups;
@@ -60,8 +59,8 @@ public class DataModelProject implements Project{
                         new ActionProviderImpl(this), //Provides standard actions like Build and Clean
                         new DeleteOperation(this),
                         new CopyOperation(this),
-                        new Info(this), //Project information implementation
-                        new ClusterProjectLogicalView(this), //Logical view of project implementation
+                        new Info(this)//, //Project information implementation
+                        //new ClusterProjectLogicalView(this), //Logical view of project implementation
                     });
         }
         return lookup;

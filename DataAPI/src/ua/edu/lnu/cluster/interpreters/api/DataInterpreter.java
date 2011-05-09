@@ -4,14 +4,14 @@
  */
 package ua.edu.lnu.cluster.interpreters.api;
 
+import java.io.Serializable;
 import java.util.List;
-import javax.swing.table.TableCellEditor;
 
 /**
  *
  * @author pif
  */
-public abstract class DataInterpreter {
+public abstract class DataInterpreter implements Serializable{
 
     public abstract double convertValue(String value);
 

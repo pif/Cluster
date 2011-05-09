@@ -182,11 +182,7 @@ public final class DataColumnTopComponent extends TopComponent implements Lookup
                 if (column == null) {
                     return;
                 }
-                
-                int state = itemEvent.getStateChange();
-                if (state == ItemEvent.SELECTED) {
-                    column.setUsedInCalculations(((javax.swing.JCheckBox)itemEvent.getSource()).isSelected());
-                }
+                column.setUsedInCalculations(((javax.swing.JCheckBox)itemEvent.getSource()).isSelected());
             }
         });
 
