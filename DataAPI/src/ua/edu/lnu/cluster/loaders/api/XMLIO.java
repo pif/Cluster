@@ -4,8 +4,6 @@
  */
 package ua.edu.lnu.cluster.loaders.api;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -131,7 +129,6 @@ public class XMLIO {
 
         @Override
         public void startElement(String uri, String localName, String qName, Attributes atrbts) throws SAXException {
-            System.out.println("START " + qName);
             if (VALUE.equalsIgnoreCase(qName)) {
                 el = true;
             } else if (ITEM.equalsIgnoreCase(qName)) {
@@ -157,28 +154,29 @@ public class XMLIO {
             } else if (DATA.equalsIgnoreCase(qName)) {
                 data = true;
             }
-
         }
 
         @Override
         public void endElement(String uri, String localName, String qName) throws SAXException {
-            System.out.println("END " + qName);
             if (VALUE.equalsIgnoreCase(qName)) {
                 el = false;
             } else if (ITEM.equalsIgnoreCase(qName)) {
-                values.add((String[]) value.toArray());
+                String[] vals = new String[value.size()];
+                for (int i = 0; i < value.size(); i++) {
+                    vals[i] = value.get(i);
+                }
+                values.add(vals);
                 item = false;
             } else if (COLUMNS.equalsIgnoreCase(qName)) {
                 columns = false;
-                // TODO modify column
             } else if (COLUMN_PROPS.equalsIgnoreCase(qName)) {
                 columnIndex++;
                 column = false;
             } else if (DATA.equalsIgnoreCase(qName)) {
+                System.out.println("Inside " + DATA);
                 model = new DataModel(values);
                 data = false;
             }
-
         }
 
         @Override
