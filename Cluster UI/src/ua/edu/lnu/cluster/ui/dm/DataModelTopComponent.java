@@ -4,10 +4,8 @@
  */
 package ua.edu.lnu.cluster.ui.dm;
 
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.util.Collections;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -150,13 +148,7 @@ public final class DataModelTopComponent extends TopComponent {
         try {
             XMLIO writer = new XMLIO();
             fout = new FileOutputStream("/home/pif/NetBeansProjects/testCluster/test.cluster");
-            try {
-                writer.write(dataModel, fout);
-            } catch (SAXException ex) {
-                Exceptions.printStackTrace(ex);
-            } catch (TransformerConfigurationException ex) {
-                Exceptions.printStackTrace(ex);
-            }
+            writer.write(dataModel, fout);
             fout.close();
         } catch (IOException ex) {
             Exceptions.printStackTrace(ex);

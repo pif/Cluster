@@ -4,7 +4,8 @@
  */
 package ua.edu.lnu.cluster.loaders.api;
 
-import com.sun.org.apache.bcel.internal.generic.FNEG;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -21,7 +22,6 @@ import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.sax.SAXTransformerFactory;
 import javax.xml.transform.sax.TransformerHandler;
 import javax.xml.transform.stream.StreamResult;
-import org.openide.util.Lookup;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
@@ -66,49 +66,55 @@ public class XMLIO {
         }
     }
 
-    public void write(DataModel model, OutputStream output) throws SAXException, TransformerConfigurationException {
-        StreamResult result = new StreamResult(output);
-        SAXTransformerFactory tf = (SAXTransformerFactory) SAXTransformerFactory.newInstance();
-        TransformerHandler hd = tf.newTransformerHandler();
-        Transformer serializer = hd.getTransformer();
-        serializer.setOutputProperty(OutputKeys.ENCODING, "utf-8");
-        serializer.setOutputProperty(OutputKeys.INDENT, "yes");
-        hd.setResult(result);
-        hd.startDocument();
-        AttributesImpl atts = new AttributesImpl();
+    public void write(DataModel model, OutputStream output) {
+        try {
+            StreamResult result = new StreamResult(output);
+            SAXTransformerFactory tf = (SAXTransformerFactory) SAXTransformerFactory.newInstance();
+            TransformerHandler hd = tf.newTransformerHandler();
+            Transformer serializer = hd.getTransformer();
+            serializer.setOutputProperty(OutputKeys.ENCODING, "utf-8");
+            serializer.setOutputProperty(OutputKeys.INDENT, "yes");
+            hd.setResult(result);
+            hd.startDocument();
+            AttributesImpl atts = new AttributesImpl();
 
-        hd.startElement("", "", ROOT, atts);
+            hd.startElement("", "", ROOT, atts);
 
-        atts.clear();
-        hd.startElement("", "", DATA, atts);
-        int cnt = model.getObservationCount();
-        int fcnt = model.getFeaturesCount();
-        for (int i = 0; i < cnt; i++) {
-            Observation observation = model.getObservation(i);
-            hd.startElement("", "", ITEM, atts);
-            for (int j = 0; j < fcnt; j++) {
-                hd.startElement("", "", VALUE, atts);
-                String value = observation.getField(j).toString();
-                hd.characters(value.toCharArray(), 0, value.length());
-                hd.endElement("", "", VALUE);
-            }
-            hd.endElement("", "", ITEM);
-        }
-        hd.endElement("", "", DATA);
-
-        hd.startElement("", "", COLUMNS, atts);
-        for (DataColumn dataColumn : model.getDataColumns()) {
             atts.clear();
-            atts.addAttribute("", "", COLUMN_NAME, "CDATA", dataColumn.getName());
-            atts.addAttribute("", "", COLUMN_USED, "CDATA", dataColumn.isUsedInCalculations() + "");
-            atts.addAttribute("", "", COLUMN_INTERPRETER, "CDATA", dataColumn.getInterpreter().getClass().getName());
-            hd.startElement("", "", COLUMN_PROPS, atts);
-            hd.endElement("", "", COLUMN_PROPS);
-        }
-        hd.endElement("", "", COLUMNS);
+            hd.startElement("", "", DATA, atts);
+            int cnt = model.getObservationCount();
+            int fcnt = model.getFeaturesCount();
+            for (int i = 0; i < cnt; i++) {
+                Observation observation = model.getObservation(i);
+                hd.startElement("", "", ITEM, atts);
+                for (int j = 0; j < fcnt; j++) {
+                    hd.startElement("", "", VALUE, atts);
+                    String value = observation.getField(j).toString();
+                    hd.characters(value.toCharArray(), 0, value.length());
+                    hd.endElement("", "", VALUE);
+                }
+                hd.endElement("", "", ITEM);
+            }
+            hd.endElement("", "", DATA);
 
-        hd.endElement("", "", ROOT);
-        hd.endDocument();
+            hd.startElement("", "", COLUMNS, atts);
+            for (DataColumn dataColumn : model.getDataColumns()) {
+                atts.clear();
+                atts.addAttribute("", "", COLUMN_NAME, "CDATA", dataColumn.getName());
+                atts.addAttribute("", "", COLUMN_USED, "CDATA", dataColumn.isUsedInCalculations() + "");
+                atts.addAttribute("", "", COLUMN_INTERPRETER, "CDATA", dataColumn.getInterpreter().getClass().getName());
+                hd.startElement("", "", COLUMN_PROPS, atts);
+                hd.endElement("", "", COLUMN_PROPS);
+            }
+            hd.endElement("", "", COLUMNS);
+
+            hd.endElement("", "", ROOT);
+            hd.endDocument();
+        } catch (SAXException ex) {
+            Logger.getLogger(XMLIO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (TransformerConfigurationException ex) {
+            Logger.getLogger(XMLIO.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     private static class DataModelParser extends DefaultHandler {
@@ -122,8 +128,10 @@ public class XMLIO {
         private List<String[]> values = new ArrayList<String[]>();
         private List<String> value = new ArrayList<String>();
         private int columnIndex = 0;
+
         @Override
         public void startElement(String uri, String localName, String qName, Attributes atrbts) throws SAXException {
+            System.out.println("START " + qName);
             if (VALUE.equalsIgnoreCase(qName)) {
                 el = true;
             } else if (ITEM.equalsIgnoreCase(qName)) {
@@ -154,6 +162,7 @@ public class XMLIO {
 
         @Override
         public void endElement(String uri, String localName, String qName) throws SAXException {
+            System.out.println("END " + qName);
             if (VALUE.equalsIgnoreCase(qName)) {
                 el = false;
             } else if (ITEM.equalsIgnoreCase(qName)) {
@@ -162,20 +171,20 @@ public class XMLIO {
             } else if (COLUMNS.equalsIgnoreCase(qName)) {
                 columns = false;
                 // TODO modify column
-            } else if (COLUMN_PROPS.equalsIgnoreCase(qName)) {                
+            } else if (COLUMN_PROPS.equalsIgnoreCase(qName)) {
                 columnIndex++;
                 column = false;
             } else if (DATA.equalsIgnoreCase(qName)) {
                 model = new DataModel(values);
                 data = false;
-            } 
+            }
 
         }
 
         @Override
         public void characters(char[] chars, int start, int length) throws SAXException {
             if (el) {
-                value.add(new String(chars, start, start));
+                value.add(new String(chars, start, length));
             }
         }
 
@@ -183,10 +192,8 @@ public class XMLIO {
             if (model == null) {
                 model = new DataModel();
             }
-                   
+
             return model;
         }
-        
-        
     }
 }

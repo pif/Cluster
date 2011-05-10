@@ -4,10 +4,10 @@
  */
 package ua.edu.lnu.cluster.fssupport;
 
+import java.io.FileNotFoundException;
 import ua.edu.lnu.cluster.fssupport.actions.OpenDataModelAction;
 import ua.edu.lnu.cluster.fssupport.actions.SaveDataModelAction;
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import org.openide.filesystems.FileObject;
 import org.openide.loaders.DataNode;
 import org.openide.loaders.DataObjectExistsException;
@@ -19,6 +19,7 @@ import org.openide.nodes.Children;
 import org.openide.util.Lookup;
 import org.openide.util.Exceptions;
 import ua.edu.lnu.cluster.DataModel;
+import ua.edu.lnu.cluster.loaders.api.XMLIO;
 
 public class DataModelDataObject extends MultiDataObject {
 
@@ -64,20 +65,11 @@ public class DataModelDataObject extends MultiDataObject {
     }
 
     private DataModel readFile(FileObject fileObject) {
-        ObjectInputStream stream = null;
+        XMLIO reader = new XMLIO();
         try {
-            stream = new ObjectInputStream(fileObject.getInputStream());
-            try {
-                DataModel loaded = (DataModel) stream.readObject();
-                stream.close();
-
-                return loaded;
-            } catch (ClassNotFoundException ex) {
-                Exceptions.printStackTrace(ex);
-                stream.close();
-            }
-        } catch (IOException ex) {
-            System.err.println(ex.getMessage());
+            return reader.getDataModel(fileObject.getInputStream());
+        } catch (FileNotFoundException ex) {
+            Exceptions.printStackTrace(ex);           
         }
         return null;
     }
