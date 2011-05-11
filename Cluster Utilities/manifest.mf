@@ -1,5 +1,0 @@
-Manifest-Version: 1.0
-OpenIDE-Module: ua.edu.lnu.cluster.utils
-OpenIDE-Module-Localizing-Bundle: ua/edu/lnu/cluster/utils/Bundle.properties
-OpenIDE-Module-Specification-Version: 1.0
-

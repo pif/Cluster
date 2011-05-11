@@ -86,8 +86,8 @@
                 </folder>
                 <folder name="Factories">
                     <file name="DataModelDataLoader.instance">
-                        <attr name="SystemFileSystem.icon" urlvalue="nbresloc:/ua/edu/lnu/cluster/fssupport/dm.png"/>
-                        <attr name="dataObjectClass" stringvalue="ua.edu.lnu.cluster.fssupport.DataModelDataObject"/>
+                        <attr name="SystemFileSystem.icon" urlvalue="nbresloc:/ua/edu/lnu/cluster/dataobj/dm.png"/>
+                        <attr name="dataObjectClass" stringvalue="ua.edu.lnu.cluster.dataobj.DataModelDataObject"/>
                         <attr name="instanceCreate" methodvalue="org.openide.loaders.DataLoaderPool.factory"/>
                         <attr name="mimeType" stringvalue="text/cluster+xml"/>
                     </file>
@@ -154,8 +154,8 @@
                 </folder>
                 <folder name="Factories">
                     <file name="DataSetDataLoader.instance">
-                        <attr name="SystemFileSystem.icon" urlvalue="nbresloc:/ua/edu/lnu/cluster/fssupport/dbfile.png"/>
-                        <attr name="dataObjectClass" stringvalue="ua.edu.lnu.cluster.fssupport.DataSetDataObject"/>
+                        <attr name="SystemFileSystem.icon" urlvalue="nbresloc:/ua/edu/lnu/cluster/dataobj/dbfile.png"/>
+                        <attr name="dataObjectClass" stringvalue="ua.edu.lnu.cluster.dataobj.DataSetDataObject"/>
                         <attr name="instanceCreate" methodvalue="org.openide.loaders.DataLoaderPool.factory"/>
                         <attr name="mimeType" stringvalue="text/dataset"/>
                     </file>
@@ -166,21 +166,21 @@
     <folder name="Services">
         <folder name="MIMEResolver">
             <file name="DataModelResolver.xml" url="DataModelResolver.xml">
-                <attr name="displayName" bundlevalue="ua.edu.lnu.cluster.fssupport.Bundle#Services/MIMEResolver/DataModelResolver.xml"/>
+                <attr name="displayName" bundlevalue="ua.edu.lnu.cluster.dataobj.Bundle#Services/MIMEResolver/DataModelResolver.xml"/>
             </file>
             <file name="DataSetResolver.xml" url="DataSetResolver.xml">
-                <attr name="displayName" bundlevalue="ua.edu.lnu.cluster.fssupport.Bundle#Services/MIMEResolver/DataSetResolver.xml"/>
+                <attr name="displayName" bundlevalue="ua.edu.lnu.cluster.dataobj.Bundle#Services/MIMEResolver/DataSetResolver.xml"/>
             </file>
         </folder>
     </folder>
     <folder name="Templates">
-        <folder name="Other">
+        <folder name="Cluster">
             <file name="DataModelTemplate.cluster" url="DataModelTemplate.cluster">
-                <attr name="displayName" bundlevalue="ua.edu.lnu.cluster.fssupport.Bundle#Templates/Other/DataModelTemplate.cluster"/>
+                <attr name="displayName" bundlevalue="ua.edu.lnu.cluster.dataobj.Bundle#Templates/Other/DataModelTemplate.cluster"/>
                 <attr name="template" boolvalue="true"/>
             </file>
             <file name="DataSetTemplate.data" url="DataSetTemplate.data">
-                <attr name="displayName" bundlevalue="ua.edu.lnu.cluster.fssupport.Bundle#Templates/Other/DataSetTemplate.data"/>
+                <attr name="displayName" bundlevalue="ua.edu.lnu.cluster.dataobj.Bundle#Templates/Other/DataSetTemplate.data"/>
                 <attr name="template" boolvalue="true"/>
             </file>
         </folder>

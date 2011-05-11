@@ -2,21 +2,15 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package ua.edu.lnu.cluster.fssupport;
+package ua.edu.lnu.cluster.dataobj;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import ua.edu.lnu.cluster.fssupport.actions.OpenDataModelAction;
-import ua.edu.lnu.cluster.fssupport.actions.SaveDataModelAction;
 import java.io.IOException;
 import java.io.OutputStream;
-import org.openide.awt.ActionID;
 import org.openide.cookies.SaveCookie;
 import org.openide.filesystems.FileObject;
-import org.openide.filesystems.FileUtil;
 import org.openide.loaders.DataNode;
 import org.openide.loaders.DataObjectExistsException;
 import org.openide.loaders.MultiDataObject;
@@ -28,6 +22,7 @@ import org.openide.util.Lookup;
 import org.openide.util.Exceptions;
 import ua.edu.lnu.cluster.DataColumn;
 import ua.edu.lnu.cluster.DataModel;
+import ua.edu.lnu.cluster.dataobj.abilities.OpenDataModelAction;
 import ua.edu.lnu.cluster.loaders.api.XMLIO;
 
 public class DataModelDataObject extends MultiDataObject implements PropertyChangeListener {

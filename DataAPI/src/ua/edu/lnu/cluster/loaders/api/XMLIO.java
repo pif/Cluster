@@ -58,9 +58,8 @@ public class XMLIO {
             Logger.getLogger(XMLIO.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             Logger.getLogger(XMLIO.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            return parser.getModel();
         }
+        return parser.getModel();
     }
 
     public void write(DataModel model, OutputStream output) {

@@ -1,18 +1,22 @@
-package ua.edu.lnu.cluster.utils;
+package ua.edu.lnu.cluster.ui.api;
 
 import java.util.HashMap;
 import java.util.Map;
-import org.openide.windows.TopComponent;
+import org.openide.util.lookup.ServiceProvider;
 import ua.edu.lnu.cluster.DataModel;
+import ua.edu.lnu.cluster.dataobj.DataModelDataObject;
+import ua.edu.lnu.cluster.dataobj.abilities.api.DataModelTcOpener;
+import ua.edu.lnu.cluster.ui.dm.DataModelTopComponent;
 
 /**
  * 
  * @author pif
  */
-public class TCManager {
+@ServiceProvider(service=DataModelTcOpener.class)
+public class TCManager implements DataModelTcOpener{
 
-    private static TCManager instance;
-    private Map<DataModel, TopComponent> openedModels = new HashMap<DataModel, TopComponent>();
+    private static TCManager instance = new TCManager();
+    private Map<DataModel, DataModelTopComponent> openedModels = new HashMap<DataModel, DataModelTopComponent>();
 //        private Map<DataSet, RawDataUITopComponent> openedDataSets = new HashMap<DataSet, RawDataUITopComponent>();
 
     public static TCManager getInstance() {
@@ -22,17 +26,20 @@ public class TCManager {
         return instance;
     }
 
-    private TCManager() {
+    public TCManager() {
+        System.out.println("New TCManager created");
     }
 
-    public void openDataModelWindow(DataModel model) {
+    @Override
+    public void openDataModelWindow(DataModelDataObject dataObj) {
+        DataModel model = dataObj.getLookup().lookup(DataModel.class);
         DataModelTopComponent modelTopComponent = null;
 
-        if (openedModels.containsKey(model)) {
+        if (instance.openedModels.containsKey(model)) {
             modelTopComponent = openedModels.get(model);
             modelTopComponent.requestActive();
         } else {
-            modelTopComponent = new DataModelTopComponent(model); // otherwise create new window to open network in
+            modelTopComponent = new DataModelTopComponent(dataObj); // otherwise create new window to open network in
             modelTopComponent.open();
             openedModels.put(model, modelTopComponent);
             modelTopComponent.requestActive();
@@ -44,7 +51,7 @@ public class TCManager {
     }
     /**
      *  Opens TrainigSetEditFrameTopComponent - opened by double clicking on training set
-     * @param trainingSet - input trainig set that will be edited
+     * @param trainingSet - input training set that will be edited
      */
 //    public void openTrainingSetWindow(TrainingSet trainingSet) {
 //        TrainingSetTopComponent trainingSetTopComponent = null;

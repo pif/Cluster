@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package ua.edu.lnu.cluster.fssupport.actions;
+package ua.edu.lnu.cluster.dataobj.abilities;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -13,7 +13,7 @@ import org.openide.filesystems.FileChooserBuilder;
 import org.openide.filesystems.FileUtil;
 import org.openide.util.Exceptions;
 import ua.edu.lnu.cluster.DataModel;
-import ua.edu.lnu.cluster.fssupport.DataModelDataObject;
+import ua.edu.lnu.cluster.dataobj.DataModelDataObject;
 
 /**
  *

@@ -13,8 +13,10 @@ import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
 import org.openide.util.Lookup;
 import ua.edu.lnu.cluster.DataModel;
+import ua.edu.lnu.cluster.dataobj.DataModelDataObject;
+import ua.edu.lnu.cluster.dataobj.abilities.api.DataModelTcOpener;
 import ua.edu.lnu.cluster.loaders.api.Loader;
-import ua.edu.lnu.cluster.utils.TCManager;
+import ua.edu.lnu.cluster.ui.api.TCManager;
 import ua.edu.lnu.cluster.ui.dm.DataModelTopComponent;
 
 /**
@@ -103,7 +105,7 @@ public final class RawDataUITopComponent extends TopComponent {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         DataModel model = loader.getData(new BufferedReader(new StringReader(jTextField1.getText() + "\n" + jTextArea1.getText())), true);
-        TCManager.getInstance().openDataModelWindow(model);
+//        Lookup.getDefault().lookup(DataModelTcOpener.class).openDataModelWindow(model);
     }//GEN-LAST:event_jButton1ActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

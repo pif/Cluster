@@ -4,13 +4,8 @@
  */
 package ua.edu.lnu.cluster.ui.dm;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.Collections;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import javax.xml.transform.TransformerConfigurationException;
-import org.openide.util.Exceptions;
 import org.openide.util.NbBundle;
 import org.openide.windows.TopComponent;
 import org.netbeans.api.settings.ConvertAsProperties;
@@ -18,11 +13,11 @@ import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
 import org.openide.util.lookup.AbstractLookup;
 import org.openide.util.lookup.InstanceContent;
-import org.xml.sax.SAXException;
+import org.openide.util.lookup.ProxyLookup;
 import ua.edu.lnu.cluster.DataColumn;
 import ua.edu.lnu.cluster.DataModel;
-import ua.edu.lnu.cluster.loaders.api.XMLIO;
-import ua.edu.lnu.cluster.utils.TCManager;
+import ua.edu.lnu.cluster.dataobj.DataModelDataObject;
+import ua.edu.lnu.cluster.ui.api.TCManager;
 import ua.edu.lnu.cluster.ui.dm.editors.CategoryCellEditor;
 import ua.edu.lnu.cluster.ui.dm.renderers.ValidCellRenderer;
 
@@ -65,6 +60,7 @@ public final class DataModelTopComponent extends TopComponent {
         }
     }
     private DataModel dataModel = null;
+    private DataModelDataObject dataObject = null;
     private DataColumn selectedColumn = null;
     private final InstanceContent content = new InstanceContent();
 
@@ -72,21 +68,19 @@ public final class DataModelTopComponent extends TopComponent {
         this(null);
     }
 
-    public DataModelTopComponent(DataModel model) {
+    public DataModelTopComponent(DataModelDataObject model) {
         initComponents();
         setName(NbBundle.getMessage(DataModelTopComponent.class, "CTL_DataModelTopComponent"));
         setToolTipText(NbBundle.getMessage(DataModelTopComponent.class, "HINT_DataModelTopComponent"));
 
-        if (model != null) {
-            this.dataModel = model;
-            associateLookup(new AbstractLookup(content));
-            content.set(Collections.singleton(this.dataModel), null);
+        this.dataModel = model.getLookup().lookup(DataModel.class);
+        this.dataObject = model;
+        associateLookup(new ProxyLookup(new AbstractLookup(content), dataObject.getLookup()));
 
-            jTable1.setModel(new DMTableModel(dataModel));
-            jTable1.getSelectionModel().addListSelectionListener(new DataColumnListener());
-            jTable1.setDefaultRenderer(Object.class, new ValidCellRenderer());
-            jTable1.setDefaultEditor(Integer.class, new CategoryCellEditor());
-        }
+        jTable1.setModel(new DMTableModel(dataModel));
+        jTable1.getSelectionModel().addListSelectionListener(new DataColumnListener());
+        jTable1.setDefaultRenderer(Object.class, new ValidCellRenderer());
+        jTable1.setDefaultEditor(Integer.class, new CategoryCellEditor());
     }
 
     /** This method is called from within the constructor to
@@ -144,7 +138,6 @@ public final class DataModelTopComponent extends TopComponent {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-
     }//GEN-LAST:event_jButton1ActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

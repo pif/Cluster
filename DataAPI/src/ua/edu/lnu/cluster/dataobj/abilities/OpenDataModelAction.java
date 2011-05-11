@@ -2,14 +2,14 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package ua.edu.lnu.cluster.fssupport.actions;
+package ua.edu.lnu.cluster.dataobj.abilities;
 
 import org.openide.cookies.OpenCookie;
 import org.openide.loaders.OpenSupport;
+import org.openide.util.Lookup;
 import org.openide.windows.CloneableTopComponent;
-import ua.edu.lnu.cluster.DataModel;
-import ua.edu.lnu.cluster.fssupport.DataModelDataObject;
-import ua.edu.lnu.cluster.utils.TCManager;
+import ua.edu.lnu.cluster.dataobj.DataModelDataObject;
+import ua.edu.lnu.cluster.dataobj.abilities.api.DataModelTcOpener;
 
 /**
  *
@@ -26,9 +26,7 @@ public class OpenDataModelAction extends OpenSupport implements OpenCookie {
 
     @Override
     public void open() {
-        DataModel model = dataObject.getDataModel();
-
-        TCManager.getInstance().openDataModelWindow(model);
+        Lookup.getDefault().lookup(DataModelTcOpener.class).openDataModelWindow(dataObject);
     }
 
     @Override
