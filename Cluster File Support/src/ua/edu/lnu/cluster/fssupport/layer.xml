@@ -1,6 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE filesystem PUBLIC "-//NetBeans//DTD Filesystem 1.2//EN" "http://www.netbeans.org/dtds/filesystem-1_2.dtd">
 <filesystem>
+    <folder name="Actions">
+        <folder name="File">
+            <file name="org-openide-actions-SaveAction.instance">
+                <attr name="instanceCreate" methodvalue="org.openide.awt.Actions.context"/>
+                <attr name="delegate" newvalue="org.openide.actions.SaveAction"/>
+                <attr name="surviveFocusChange" boolvalue="false"/>
+                <attr name="displayName" bundlevalue="org/openide/actions/Bundle#Save"/>
+                <attr name="noIconInMenu" boolvalue="false"/>
+                <attr name="iconBase" stringvalue="org/openide/resources/actions/save.png"/>
+                <attr name="type" stringvalue="org.openide.cookies.SaveCookie"/>
+            </file>
+            <file name="org-openide-actions-SaveAllAction.instance">
+                <attr name="instanceCreate" methodvalue="org.openide.awt.Actions.context"/>
+                <attr name="delegate" newvalue="org.openide.actions.SaveAllAction"/>
+                <attr name="surviveFocusChange" boolvalue="false"/>
+                <attr name="displayName" bundlevalue="org/openide/actions/Bundle#SaveAll"/>
+                <attr name="noIconInMenu" boolvalue="false"/>
+                <attr name="iconBase" stringvalue="org/openide/resources/actions/saveall.png"/>
+                <attr name="type" stringvalue="org.openide.cookies.SaveCookie"/>
+            </file>
+        </folder>
+    </folder>
     <folder name="Loaders">
         <folder name="text">
             <folder name="cluster+xml">

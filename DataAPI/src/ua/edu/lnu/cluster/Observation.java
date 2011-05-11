@@ -10,7 +10,7 @@ import java.io.Serializable;
  *
  * @author pif
  */
-public class Observation implements Serializable {
+class Observation implements Serializable {
 
     private static final long serialVersionUID = 1L;
     
@@ -23,4 +23,8 @@ public class Observation implements Serializable {
     public Object getField(int index) {
         return fields[index];
     }
+
+    public void setField(int index, Object value) {
+        fields[index] = value;
+    }    
 }

@@ -144,21 +144,6 @@ public final class DataModelTopComponent extends TopComponent {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        FileOutputStream fout = null;
-        try {
-            XMLIO writer = new XMLIO();
-            fout = new FileOutputStream("/home/pif/NetBeansProjects/testCluster/test.cluster");
-            writer.write(dataModel, fout);
-            fout.close();
-        } catch (IOException ex) {
-            Exceptions.printStackTrace(ex);
-        } finally {
-            try {
-                fout.close();
-            } catch (IOException ex) {
-                Exceptions.printStackTrace(ex);
-            }
-        }
 
     }//GEN-LAST:event_jButton1ActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables

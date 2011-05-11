@@ -4,6 +4,7 @@
  */
 package ua.edu.lnu.cluster;
 
+import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
@@ -15,9 +16,7 @@ import java.util.List;
  * class which represents clustering data
  * @author pif
  */
-public class DataModel implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+public class DataModel implements PropertyChangeListener {
     public static final String PROP_NAME = "name";
     public static final String PROP_DATA = "dataChange";
     private List<DataColumn> dataColumns = new ArrayList<DataColumn>();
@@ -38,7 +37,7 @@ public class DataModel implements Serializable {
                 DataColumn column = new DataColumn();
                 String header = i < headers.size() ? headers.get(i) : "Column " + i;
                 column.setName(header);
-
+                column.addPropertyChangeListener(this);
                 dataColumns.add(column);
             }
 
@@ -67,8 +66,8 @@ public class DataModel implements Serializable {
     }
 
     public void removeObservation(int id) {
-        for (DataColumn dataField : dataColumns) {
-            dataField.removeData(id);
+        for (DataColumn dataColumn : dataColumns) {
+            dataColumn.removeData(id);
         }
         observations.remove(id);
 
@@ -114,5 +113,10 @@ public class DataModel implements Serializable {
 
     public List<DataColumn> getDataColumns() {
         return Collections.unmodifiableList(dataColumns);
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent pce) {
+        pcs.firePropertyChange(pce);
     }
 }

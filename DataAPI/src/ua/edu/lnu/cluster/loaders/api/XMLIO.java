@@ -26,7 +26,6 @@ import org.xml.sax.helpers.AttributesImpl;
 import org.xml.sax.helpers.DefaultHandler;
 import ua.edu.lnu.cluster.DataColumn;
 import ua.edu.lnu.cluster.DataModel;
-import ua.edu.lnu.cluster.Observation;
 import ua.edu.lnu.cluster.interpreters.api.DataInterpreter;
 
 /**
@@ -83,11 +82,10 @@ public class XMLIO {
             int cnt = model.getObservationCount();
             int fcnt = model.getFeaturesCount();
             for (int i = 0; i < cnt; i++) {
-                Observation observation = model.getObservation(i);
                 hd.startElement("", "", ITEM, atts);
                 for (int j = 0; j < fcnt; j++) {
                     hd.startElement("", "", VALUE, atts);
-                    String value = observation.getField(j).toString();
+                    String value = model.getDataColumn(j).getOriginalValue(i);
                     hd.characters(value.toCharArray(), 0, value.length());
                     hd.endElement("", "", VALUE);
                 }
