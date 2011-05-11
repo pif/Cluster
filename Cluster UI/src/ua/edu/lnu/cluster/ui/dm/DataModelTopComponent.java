@@ -75,6 +75,7 @@ public final class DataModelTopComponent extends TopComponent {
 
         this.dataModel = model.getLookup().lookup(DataModel.class);
         this.dataObject = model;
+        setName(this.dataObject.getName());
         associateLookup(new ProxyLookup(new AbstractLookup(content), dataObject.getLookup()));
 
         jTable1.setModel(new DMTableModel(dataModel));

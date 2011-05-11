@@ -36,18 +36,18 @@ public class TCManager implements DataModelTcOpener{
         DataModelTopComponent modelTopComponent = null;
 
         if (instance.openedModels.containsKey(model)) {
-            modelTopComponent = openedModels.get(model);
+            modelTopComponent = instance.openedModels.get(model);
             modelTopComponent.requestActive();
         } else {
             modelTopComponent = new DataModelTopComponent(dataObj); // otherwise create new window to open network in
             modelTopComponent.open();
-            openedModels.put(model, modelTopComponent);
+            instance.openedModels.put(model, modelTopComponent);
             modelTopComponent.requestActive();
         }
     }
 
     public void onDataModelClose(DataModel nnet) {
-        openedModels.remove(nnet);
+        instance.openedModels.remove(nnet);
     }
     /**
      *  Opens TrainigSetEditFrameTopComponent - opened by double clicking on training set

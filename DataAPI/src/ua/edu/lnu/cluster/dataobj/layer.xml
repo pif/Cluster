@@ -12,15 +12,6 @@
                 <attr name="iconBase" stringvalue="org/openide/resources/actions/save.png"/>
                 <attr name="type" stringvalue="org.openide.cookies.SaveCookie"/>
             </file>
-            <file name="org-openide-actions-SaveAllAction.instance">
-                <attr name="instanceCreate" methodvalue="org.openide.awt.Actions.context"/>
-                <attr name="delegate" newvalue="org.openide.actions.SaveAllAction"/>
-                <attr name="surviveFocusChange" boolvalue="false"/>
-                <attr name="displayName" bundlevalue="org/openide/actions/Bundle#SaveAll"/>
-                <attr name="noIconInMenu" boolvalue="false"/>
-                <attr name="iconBase" stringvalue="org/openide/resources/actions/saveall.png"/>
-                <attr name="type" stringvalue="org.openide.cookies.SaveCookie"/>
-            </file>
         </folder>
     </folder>
     <folder name="Loaders">
@@ -173,6 +164,14 @@
             </file>
         </folder>
     </folder>
+    <folder name="Toolbars">
+        <folder name="File">
+            <file name="SaveAction.shadow">
+                <attr name="originalFile" stringvalue="Actions/File/org-openide-actions-SaveAction.instance"/>
+                <attr name="position" intvalue="100"/>
+            </file>
+        </folder>
+    </folder>    
     <folder name="Templates">
         <folder name="Cluster">
             <file name="DataModelTemplate.cluster" url="DataModelTemplate.cluster">
