@@ -87,7 +87,9 @@
                     </run-dependency>
                 </dependency>
             </module-dependencies>
-            <public-packages/>
+            <public-packages>
+                <package>ua.edu.lnu.cluster.fssupport</package>
+            </public-packages>
         </data>
     </configuration>
 </project>

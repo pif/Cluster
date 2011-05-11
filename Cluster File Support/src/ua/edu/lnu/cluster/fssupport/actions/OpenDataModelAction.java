@@ -9,7 +9,7 @@ import org.openide.loaders.OpenSupport;
 import org.openide.windows.CloneableTopComponent;
 import ua.edu.lnu.cluster.DataModel;
 import ua.edu.lnu.cluster.fssupport.DataModelDataObject;
-import ua.edu.lnu.cluster.ui.api.TCManager;
+import ua.edu.lnu.cluster.utils.TCManager;
 
 /**
  *

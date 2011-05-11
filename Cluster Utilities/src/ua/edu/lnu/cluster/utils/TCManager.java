@@ -1,10 +1,9 @@
-package ua.edu.lnu.cluster.ui.api;
+package ua.edu.lnu.cluster.utils;
 
 import java.util.HashMap;
 import java.util.Map;
+import org.openide.windows.TopComponent;
 import ua.edu.lnu.cluster.DataModel;
-import ua.edu.lnu.cluster.ui.RawDataUITopComponent;
-import ua.edu.lnu.cluster.ui.dm.DataModelTopComponent;
 
 /**
  * 
@@ -13,7 +12,7 @@ import ua.edu.lnu.cluster.ui.dm.DataModelTopComponent;
 public class TCManager {
 
     private static TCManager instance;
-    private Map<DataModel, DataModelTopComponent> openedModels = new HashMap<DataModel, DataModelTopComponent>();
+    private Map<DataModel, TopComponent> openedModels = new HashMap<DataModel, TopComponent>();
 //        private Map<DataSet, RawDataUITopComponent> openedDataSets = new HashMap<DataSet, RawDataUITopComponent>();
 
     public static TCManager getInstance() {

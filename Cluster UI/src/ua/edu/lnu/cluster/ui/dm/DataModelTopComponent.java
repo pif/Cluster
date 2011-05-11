@@ -22,7 +22,7 @@ import org.xml.sax.SAXException;
 import ua.edu.lnu.cluster.DataColumn;
 import ua.edu.lnu.cluster.DataModel;
 import ua.edu.lnu.cluster.loaders.api.XMLIO;
-import ua.edu.lnu.cluster.ui.api.TCManager;
+import ua.edu.lnu.cluster.utils.TCManager;
 import ua.edu.lnu.cluster.ui.dm.editors.CategoryCellEditor;
 import ua.edu.lnu.cluster.ui.dm.renderers.ValidCellRenderer;
 

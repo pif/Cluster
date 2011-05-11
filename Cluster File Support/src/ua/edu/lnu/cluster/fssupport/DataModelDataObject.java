@@ -12,6 +12,7 @@ import java.io.FileOutputStream;
 import ua.edu.lnu.cluster.fssupport.actions.OpenDataModelAction;
 import ua.edu.lnu.cluster.fssupport.actions.SaveDataModelAction;
 import java.io.IOException;
+import java.io.OutputStream;
 import org.openide.awt.ActionID;
 import org.openide.cookies.SaveCookie;
 import org.openide.filesystems.FileObject;
@@ -100,28 +101,14 @@ public class DataModelDataObject extends MultiDataObject implements PropertyChan
 
         @Override
         public void save() throws IOException {
-            File saveTo = FileUtil.toFile(DataModelDataObject.this.getPrimaryFile());
-            save(saveTo);
-        }
-
-        private void save(File f) throws IOException {
-            FileOutputStream fout = null;
-            try {
+            FileObject saveTo = DataModelDataObject.this.getPrimaryFile();
+            if (saveTo != null) {
                 XMLIO writer = new XMLIO();
-                fout = new FileOutputStream(f,false);
-                writer.write(model, fout);
-                fout.close();
-            } catch (IOException ex) {
-                Exceptions.printStackTrace(ex);
-            } finally {
-                try {
-                    fout.close();
-                } catch (IOException ex) {
-                    Exceptions.printStackTrace(ex);
-                }
+                OutputStream out = saveTo.getOutputStream();
+                writer.write(model, out);
+                out.close();
+                enableSaveAction(false);
             }
-
-            enableSaveAction(false);
         }
     }
 

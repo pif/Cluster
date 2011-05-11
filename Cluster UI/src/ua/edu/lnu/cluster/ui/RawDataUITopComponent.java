@@ -14,7 +14,7 @@ import org.openide.awt.ActionReference;
 import org.openide.util.Lookup;
 import ua.edu.lnu.cluster.DataModel;
 import ua.edu.lnu.cluster.loaders.api.Loader;
-import ua.edu.lnu.cluster.ui.api.TCManager;
+import ua.edu.lnu.cluster.utils.TCManager;
 import ua.edu.lnu.cluster.ui.dm.DataModelTopComponent;
 
 /**
