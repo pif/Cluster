@@ -29,7 +29,7 @@ public class CategoryInterpreter extends DataInterpreter {
     }
 
     @Override
-    public String getName() {
+    public String getDisplayName() {
         return "Categories";
     }
 

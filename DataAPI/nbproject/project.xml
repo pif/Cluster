@@ -85,6 +85,7 @@
                 <package>ua.edu.lnu.cluster.dataobj.abilities.api</package>
                 <package>ua.edu.lnu.cluster.interpreters.api</package>
                 <package>ua.edu.lnu.cluster.loaders.api</package>
+                <package>ua.edu.lnu.cluster.measures.api</package>
                 <package>ua.edu.lnu.cluster.validators.api</package>
             </public-packages>
         </data>

@@ -28,7 +28,7 @@ public abstract class DataInterpreter implements Serializable{
 
     public abstract void preprocessData(List<String> data);
 
-    public abstract String getName();
+    public abstract String getDisplayName();
     
     public Class<?> getColumnClass() {
         return Object.class;
@@ -36,7 +36,7 @@ public abstract class DataInterpreter implements Serializable{
 
     @Override
     public String toString() {
-        return getName();
+        return getDisplayName();
     }
 
     @Override
@@ -51,12 +51,12 @@ public abstract class DataInterpreter implements Serializable{
             return false;
         }
         final DataInterpreter other = (DataInterpreter) obj;
-        return getName().equalsIgnoreCase(other.getName());
+        return getDisplayName().equalsIgnoreCase(other.getDisplayName());
     }
 
     @Override
     public int hashCode() {
-        return 37*getName().hashCode();
+        return 37*getDisplayName().hashCode();
     }
     
     /**

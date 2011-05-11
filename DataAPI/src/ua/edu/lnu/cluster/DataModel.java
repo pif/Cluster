@@ -7,7 +7,6 @@ package ua.edu.lnu.cluster;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -58,11 +57,34 @@ public class DataModel implements PropertyChangeListener {
     }
 
     public int getObservationCount() {
-        return observations.size();
+        //return observations.size();
+        if (dataColumns.isEmpty()){
+            return 0;
+        }
+        
+        return dataColumns.get(0).getSize();
     }
 
+    /**
+     * 
+     * @return number of datacolumns.
+     */
     public int getFeaturesCount() {
         return dataColumns.size();
+    }
+    
+    /**
+     * 
+     * @return number of used in calculations columns
+     */
+    public int getEnabledFeaturesCount() {
+        int count = 0;
+        for (DataColumn dataColumn : dataColumns) {
+            if (dataColumn.isUsedInCalculations()) {
+                ++count;
+            }
+        }
+        return count;
     }
 
     public void removeObservation(int id) {
@@ -85,9 +107,62 @@ public class DataModel implements PropertyChangeListener {
 //        
 //        observations.add(new Observation(observation));
 //    }
-    public Observation getObservation(int index) {
-        return observations.get(index);
+//    public Observation getObservation(int index) {
+//        return observations.get(index);
+//    }
+    
+    public double[] getObservation(int index) {
+        double[] observation = new double[getFeaturesCount()];
+        for (int i = 0; i < getFeaturesCount(); i++) {
+            observation[i] = getDataColumn(i).getNormalizedValue(index);
+        }
+        return observation;
     }
+    
+    /**
+     * 
+     * @param index of observation
+     * @return observation which includes only features, which are used 
+     * in calculations
+     */
+    public double[] getCalculationObservation(int index) {
+        double[] observation = new double[getEnabledFeaturesCount()];
+        int idx = 0;
+        for (int i = 0; i < getFeaturesCount(); i++) {
+            if (getDataColumn(i).isUsedInCalculations()) {
+                observation[idx++]=getDataColumn(i).getNormalizedValue(index);
+            }
+        }
+        return observation;
+    }
+    
+    /**
+     * 
+     * @return data, which is filled only with needed data.
+     * e.g. features, which are used in calculations.
+     * and all !NaN observations
+     */
+    public List<double[]> getPreparedCalculationData() {
+        List<double[]> res = new ArrayList<double[]>();
+        for (int i = 0; i < getObservationCount(); i++) {
+            double[] observation = getCalculationObservation(i);
+            if(!hasNaNs(observation)) {
+                res.add(observation);
+            }
+        }
+        
+        return res;
+    }
+    
+    private boolean hasNaNs(double[] d ) {
+        for (double e : d) {
+            if (e==Double.NaN) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
 
     public DataColumn getDataColumn(int index) {
         return dataColumns.get(index);

@@ -22,7 +22,7 @@ public class StringInterpreter extends  DataInterpreter {
     }
 
     @Override
-    public String getName() {
+    public String getDisplayName() {
         return "Simple text";
     }
 

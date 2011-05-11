@@ -17,7 +17,7 @@ import ua.edu.lnu.cluster.interpreters.api.DataInterpreter;
 public class DoubleInterpreter extends  DataInterpreter {
 
     @Override
-    public String getName() {
+    public String getDisplayName() {
         return "Double values";
     }
     

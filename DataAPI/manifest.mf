@@ -2,4 +2,3 @@ Manifest-Version: 1.0
 OpenIDE-Module: ua.edu.lnu.cluster
 OpenIDE-Module-Layer: ua/edu/lnu/cluster/dataobj/layer.xml
 OpenIDE-Module-Localizing-Bundle: ua/edu/lnu/cluster/Bundle.properties
-OpenIDE-Module-Specification-Version: 1.0
