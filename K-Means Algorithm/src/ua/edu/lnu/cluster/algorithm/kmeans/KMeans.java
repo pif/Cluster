@@ -18,9 +18,18 @@ import ua.edu.lnu.cluster.measures.api.ProximityMeasure;
  */
 @ServiceProvider(service=PartitionalClustering.class)
 public class KMeans implements PartitionalClustering {
-    public KMeans(){
+    private List<double[]> data;
+    private int clusterCount;
+    private double[][] clusterMeans;
+    /**
+     * array, where i-th element of the dataset is moved to a[i] cluster
+     */
+    private int[] resultingSet;
+    private ProximityMeasure measure;
+
+    public KMeans() {
     }
-    
+
     /**
      * 0.   randomly initialise means.
      *      to achive this assign each observation to the randomly
@@ -34,50 +43,8 @@ public class KMeans implements PartitionalClustering {
      *
      * @return 
      */
-    @Override
-    public ClusterInfo calculate(List<double[]> observations, double[][] matrix, ProximityMeasure measure, int clusterCount) {
-        int observationsCount = matrix.length;
-        int featureCount = observations.get(0).length;
-        ClusterInfo result = new ClusterInfo(observationsCount);
-        double[][] clusterMeans = new double[clusterCount][featureCount];
-        result = initMeans(observations, result);
-        clusterMeans = updateMeans(result);
-
-        
-        return result;
-    }
-    
-    private ClusterInfo initMeans(List<double[]> observations, ClusterInfo info) {
-        Random r = new Random();
-        for (int i = 0; i < data.length; i++) {
-            info.setClusterNumber(i, r.nextInt(clusterCount));
-        }
-        return info;
-    }
-
-    private double[][] updateMeans(ClusterInfo info, double[][] clMeans) {
-        for (int i = 0; i < clMeans.length; i++) {
-            double[] mean = clMeans[i];
-            int elements = 0;
-            for (int j = 0; j < data.length; j++) {
-                if (info.getClusterNumber(j) == i) {
-                    elements++;
-                    for (int k = 0; k < data[j].length; k++) {
-                        mean[k] += data[j][k];
-                    }
-                }
-            }
-            if (elements > 0) {
-                for (int j = 0; j < mean.length; j++) {
-                    mean[j] /= elements;
-                }
-            }
-        }
-        return clMeans;
-    }
-
-    
-    public int[] clusterData() {
+    private void clusterData() {
+        initMeans();
 
         boolean movedElements = true;
         while(movedElements) {
@@ -85,17 +52,15 @@ public class KMeans implements PartitionalClustering {
             movedElements = moveObservations();
             updateMeans();
         }
-
-        return resultingSet;
     }
 
     private boolean moveObservations() {
         boolean movedElements = false;
-        for (int i = 0; i < data.length; i++) {
-            double[] observation = data[i];
-            double distance = getDistance(observation, clusterMeans[resultingSet[i]]);
+        for (int i = 0; i < data.size(); i++) {
+            double[] observation = data.get(i);
+            double distance = measure.distance(observation, clusterMeans[resultingSet[i]]);
             for (int j = 0; j < clusterMeans.length; j++) {
-                double length = getDistance(observation, clusterMeans[j]);
+                double length = measure.distance(observation, clusterMeans[j]);
                 if (length < distance) {
                     distance = length;
                     if (resultingSet[i] != j) {
@@ -108,25 +73,48 @@ public class KMeans implements PartitionalClustering {
         return movedElements;
     }
 
-
-
-    /**
-     * move this into Distance Interface: Euclidian,...
-     * @param observation
-     * @param cluster
-     * @return distance from observation to cluster mean
-     */
-    private double getDistance(double[] observation, double[] cluster) {
-        if (observation.length != cluster.length) {
-            throw new IllegalArgumentException("Observation and cluster mean should be of the same length");
+    private void initMeans() {
+        Random r = new Random();
+        for (int i = 0; i < data.size(); i++) {
+            resultingSet[i] = r.nextInt(clusterCount);
         }
-        double sum = 0;
+        updateMeans();
+    }
 
-        for (int i = 0; i < cluster.length; i++) {
-            sum+=Math.pow(cluster[i]-observation[i], 2);
+    private void updateMeans() {
+        for (int i = 0; i < clusterMeans.length; i++) {
+            double[] mean = clusterMeans[i];
+            int elements = 0;
+            for (int j = 0; j < data.size(); j++) {
+                if (resultingSet[j] == i) {
+                    elements++;
+                    double[] d = data.get(j);
+                    for (int k = 0; k < d.length; k++) {
+                        mean[k] += d[k];
+                    }
+                }
+            }
+            if (elements > 0) {
+                for (int j = 0; j < mean.length; j++) {
+                    mean[j] /= elements;
+                }
+            }
         }
+    }
 
-        return sum;
+    @Override
+    public ClusterInfo calculate(List<double[]> observations, double[][] matrix, ProximityMeasure measure, int clusterCount) {
+        
+        this.clusterCount = clusterCount;
+        this.data = observations;
+        this.measure = measure;
+        this.clusterMeans = new double[clusterCount][data.get(0).length];
+        this.resultingSet = new int[data.size()];
+
+        this.clusterData();
+        
+        ClusterInfo info = new ClusterInfo(resultingSet);
+        return info;
     }
     
 }
