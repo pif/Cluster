@@ -4,7 +4,10 @@
  */
 package ua.edu.lnu.cluster.algorithm.ui;
 
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
+import javax.swing.DefaultComboBoxModel;
 import org.openide.util.NbBundle;
 import org.openide.windows.TopComponent;
 import org.netbeans.api.settings.ConvertAsProperties;
@@ -15,6 +18,8 @@ import org.openide.util.LookupEvent;
 import org.openide.util.LookupListener;
 import org.openide.util.Utilities;
 import ua.edu.lnu.cluster.DataModel;
+import ua.edu.lnu.cluster.algorithm.api.PartitionalClustering;
+import ua.edu.lnu.cluster.measures.api.ProximityMeasure;
 
 /**
  * Top component which displays something.
@@ -29,10 +34,10 @@ persistenceType = TopComponent.PERSISTENCE_ALWAYS)
 @ActionReference(path = "Menu/Window" /*, position = 333 */)
 @TopComponent.OpenActionRegistration(displayName = "#CTL_PartitionalClusteringAction",
 preferredID = "PartitionalClusteringTopComponent")
-public final class PartitionalClusteringTopComponent extends TopComponent implements LookupListener{
+public final class PartitionalClusteringTopComponent extends TopComponent implements LookupListener {
 
     private Lookup.Result result = null;
-    
+
     public PartitionalClusteringTopComponent() {
         initComponents();
         setName(NbBundle.getMessage(PartitionalClusteringTopComponent.class, "CTL_PartitionalClusteringTopComponent"));
@@ -48,20 +53,90 @@ public final class PartitionalClusteringTopComponent extends TopComponent implem
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel1 = new javax.swing.JLabel();
+        jComboBox1 = new javax.swing.JComboBox();
+        jLabel2 = new javax.swing.JLabel();
+        jComboBox2 = new javax.swing.JComboBox();
+        jLabel3 = new javax.swing.JLabel();
+        jSpinner1 = new javax.swing.JSpinner();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+
+        org.openide.awt.Mnemonics.setLocalizedText(jLabel1, org.openide.util.NbBundle.getMessage(PartitionalClusteringTopComponent.class, "PartitionalClusteringTopComponent.jLabel1.text")); // NOI18N
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        org.openide.awt.Mnemonics.setLocalizedText(jLabel2, org.openide.util.NbBundle.getMessage(PartitionalClusteringTopComponent.class, "PartitionalClusteringTopComponent.jLabel2.text")); // NOI18N
+
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        org.openide.awt.Mnemonics.setLocalizedText(jLabel3, org.openide.util.NbBundle.getMessage(PartitionalClusteringTopComponent.class, "PartitionalClusteringTopComponent.jLabel3.text")); // NOI18N
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(jTable1);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel3))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jComboBox1, 0, 226, Short.MAX_VALUE)
+                    .addComponent(jComboBox2, 0, 226, Short.MAX_VALUE)
+                    .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(12, 12, 12)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 376, Short.MAX_VALUE)
+                .addContainerGap(12, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 275, Short.MAX_VALUE)
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox jComboBox1;
+    private javax.swing.JComboBox jComboBox2;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JSpinner jSpinner1;
+    private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
+
     @Override
     public void componentOpened() {
         result = Utilities.actionsGlobalContext().lookupResult(DataModel.class);
@@ -85,16 +160,57 @@ public final class PartitionalClusteringTopComponent extends TopComponent implem
         String version = p.getProperty("version");
         // TODO read your settings according to their version
     }
+
     @Override
     public void resultChanged(LookupEvent le) {
         Lookup.Result r = (Lookup.Result) le.getSource();
         Collection c = r.allInstances();
         if (!c.isEmpty()) {
             DataModel model = (DataModel) c.iterator().next();
-            setName("Partitional clustering for ["+model.getName()+"]");
+            setName("Partitional clustering for [" + model.getName() + "]");
         } else {
             setName("No DataModel selected");
         }
-        
+    }
+
+//    ClusterInfo calculate(List<double[]> observations, double[][] matrix, ProximityMeasure measure, int clusterCount);
+    private static class PartitionalClusterModel extends DefaultComboBoxModel {
+
+        private List<Object> algorithms = null;
+
+        public PartitionalClusterModel() {
+            Collection<? extends PartitionalClustering> lookupInterps = (Collection<? extends PartitionalClustering>) Lookup.getDefault().lookupAll(PartitionalClustering.class);
+            algorithms = Arrays.asList(lookupInterps.toArray());
+        }
+
+        @Override
+        public int getSize() {
+            return algorithms.size();
+        }
+
+        @Override
+        public Object getElementAt(int i) {
+            return algorithms.get(i);
+        }
+    }
+
+    private static class MeasureModel extends DefaultComboBoxModel {
+
+        private List<Object> measures = null;
+
+        public MeasureModel() {
+            Collection<? extends ProximityMeasure> lookupInterps = (Collection<? extends ProximityMeasure>) Lookup.getDefault().lookupAll(ProximityMeasure.class);
+            measures = Arrays.asList(lookupInterps.toArray());
+        }
+
+        @Override
+        public int getSize() {
+            return measures.size();
+        }
+
+        @Override
+        public Object getElementAt(int i) {
+            return measures.get(i);
+        }
     }
 }
