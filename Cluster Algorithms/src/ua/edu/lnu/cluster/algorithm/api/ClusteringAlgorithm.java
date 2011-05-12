@@ -5,7 +5,6 @@
 package ua.edu.lnu.cluster.algorithm.api;
 
 import java.util.List;
-import ua.edu.lnu.cluster.measures.api.ProximityMatrix;
 import ua.edu.lnu.cluster.measures.api.ProximityMeasure;
 
 /**
