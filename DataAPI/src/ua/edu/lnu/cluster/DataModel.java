@@ -16,6 +16,7 @@ import java.util.List;
  * @author pif
  */
 public class DataModel implements PropertyChangeListener {
+
     public static final String PROP_NAME = "name";
     public static final String PROP_DATA = "dataChange";
     private List<DataColumn> dataColumns = new ArrayList<DataColumn>();
@@ -26,7 +27,7 @@ public class DataModel implements PropertyChangeListener {
     public DataModel(List<String[]> rawData) {
         this(rawData, Collections.EMPTY_LIST);
     }
-    
+
     public DataModel(List<String[]> rawData, List<String> headers) {
         if (!rawData.isEmpty()) {
             String[] observation = rawData.get(0);
@@ -58,10 +59,10 @@ public class DataModel implements PropertyChangeListener {
 
     public int getObservationCount() {
         //return observations.size();
-        if (dataColumns.isEmpty()){
+        if (dataColumns.isEmpty()) {
             return 0;
         }
-        
+
         return dataColumns.get(0).getSize();
     }
 
@@ -72,7 +73,7 @@ public class DataModel implements PropertyChangeListener {
     public int getFeaturesCount() {
         return dataColumns.size();
     }
-    
+
     /**
      * 
      * @return number of used in calculations columns
@@ -110,59 +111,67 @@ public class DataModel implements PropertyChangeListener {
 //    public Observation getObservation(int index) {
 //        return observations.get(index);
 //    }
-    
-    public double[] getObservation(int index) {
+    public double[] getObservationNormalized(int index) {
         double[] observation = new double[getFeaturesCount()];
         for (int i = 0; i < getFeaturesCount(); i++) {
             observation[i] = getDataColumn(i).getNormalizedValue(index);
         }
         return observation;
     }
-    
+
     /**
-     * 
+     * Filters only usedInCalculations features. 
+     * May return NaN normalized values!
      * @param index of observation
      * @return observation which includes only features, which are used 
      * in calculations
      */
-    public double[] getCalculationObservation(int index) {
+    public double[] getObservationFiltered(int index) {
         double[] observation = new double[getEnabledFeaturesCount()];
         int idx = 0;
         for (int i = 0; i < getFeaturesCount(); i++) {
             if (getDataColumn(i).isUsedInCalculations()) {
-                observation[idx++]=getDataColumn(i).getNormalizedValue(index);
+                observation[idx++] = getDataColumn(i).getNormalizedValue(index);
             }
         }
         return observation;
     }
-    
+
+    public String[] getObservationRaw(int index) {
+        String[] observation = new String[getFeaturesCount()];
+        int idx = 0;
+        for (int i = 0; i < getFeaturesCount(); i++) {
+            observation[i] = getDataColumn(i).getOriginalValue(index);
+        }
+        return observation;
+    }
+
     /**
      * 
      * @return data, which is filled only with needed data.
-     * e.g. features, which are used in calculations.
-     * and all !NaN observations
+     * <ul><li>features, which are used in calculations.</li>
+     *  <li>all !NaN observations</li></ul>
      */
     public List<double[]> getPreparedCalculationData() {
         List<double[]> res = new ArrayList<double[]>();
         for (int i = 0; i < getObservationCount(); i++) {
-            double[] observation = getCalculationObservation(i);
-            if(!hasNaNs(observation)) {
+            double[] observation = getObservationFiltered(i);
+            if (!hasNaNs(observation)) {
                 res.add(observation);
             }
         }
-        
+
         return res;
     }
-    
-    private boolean hasNaNs(double[] d ) {
+
+    private boolean hasNaNs(double[] d) {
         for (double e : d) {
-            if (e==Double.NaN) {
+            if (e == Double.NaN) {
                 return true;
             }
         }
         return false;
     }
-    
 
     public DataColumn getDataColumn(int index) {
         return dataColumns.get(index);

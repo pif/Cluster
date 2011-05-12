@@ -22,9 +22,9 @@ public class ProximityMatrixGenerator implements ProximityMatrix {
         double[][] res = new double[size][size];
 
         for (int i = 0; i < size; i++) {
-            double[] element1 = model.getObservation(i);
+            double[] element1 = model.getObservationNormalized(i);
             for (int j = i + 1; j < size; j++) {
-                res[i][j] = measure.distance(element1, model.getObservation(j));
+                res[i][j] = measure.distance(element1, model.getObservationNormalized(j));
             }
         }
 
