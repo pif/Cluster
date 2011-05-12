@@ -9,8 +9,8 @@
         <item><el>stuff</el><el>44.4</el><el>cat1</el></item>
     </data>
     <columns>
-        <column colname="Column A" used="true" type="ua.edu.lnu.cluster.interpreters.StringInterpreter">
-        <column colname="Column B" used="false" type="ua.edu.lnu.cluster.interpreters.DoubleInterpreter">
-        <column colname="Column C" used="true" type="ua.edu.lnu.cluster.interpreters.CategoryInterpreter">
+        <column colname="Column A" used="true" type="ua.edu.lnu.cluster.interpreters.StringInterpreter" />
+        <column colname="Column B" used="false" type="ua.edu.lnu.cluster.interpreters.DoubleInterpreter" />
+        <column colname="Column C" used="true" type="ua.edu.lnu.cluster.interpreters.CategoryInterpreter" />
     </columns>
 </cluster>
