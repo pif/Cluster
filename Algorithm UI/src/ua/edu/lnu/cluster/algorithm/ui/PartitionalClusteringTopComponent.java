@@ -8,6 +8,8 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.table.AbstractTableModel;
+import javax.swing.table.DefaultTableModel;
 import org.openide.util.NbBundle;
 import org.openide.windows.TopComponent;
 import org.netbeans.api.settings.ConvertAsProperties;
@@ -18,6 +20,8 @@ import org.openide.util.LookupEvent;
 import org.openide.util.LookupListener;
 import org.openide.util.Utilities;
 import ua.edu.lnu.cluster.DataModel;
+import ua.edu.lnu.cluster.algorithm.api.ClusterInfo;
+import ua.edu.lnu.cluster.algorithm.api.ClusteringAlgorithm;
 import ua.edu.lnu.cluster.algorithm.api.PartitionalClustering;
 import ua.edu.lnu.cluster.measures.api.ProximityMeasure;
 
@@ -37,7 +41,7 @@ preferredID = "PartitionalClusteringTopComponent")
 public final class PartitionalClusteringTopComponent extends TopComponent implements LookupListener {
 
     private Lookup.Result result = null;
-
+    private DataModel model = null;
     public PartitionalClusteringTopComponent() {
         initComponents();
         setName(NbBundle.getMessage(PartitionalClusteringTopComponent.class, "CTL_PartitionalClusteringTopComponent"));
@@ -61,16 +65,19 @@ public final class PartitionalClusteringTopComponent extends TopComponent implem
         jSpinner1 = new javax.swing.JSpinner();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        jButton1 = new javax.swing.JButton();
 
         org.openide.awt.Mnemonics.setLocalizedText(jLabel1, org.openide.util.NbBundle.getMessage(PartitionalClusteringTopComponent.class, "PartitionalClusteringTopComponent.jLabel1.text")); // NOI18N
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox1.setModel(new PartitionalClusterModel());
 
         org.openide.awt.Mnemonics.setLocalizedText(jLabel2, org.openide.util.NbBundle.getMessage(PartitionalClusteringTopComponent.class, "PartitionalClusteringTopComponent.jLabel2.text")); // NOI18N
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox2.setModel(new MeasureModel());
 
         org.openide.awt.Mnemonics.setLocalizedText(jLabel3, org.openide.util.NbBundle.getMessage(PartitionalClusteringTopComponent.class, "PartitionalClusteringTopComponent.jLabel3.text")); // NOI18N
+
+        jSpinner1.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(3), Integer.valueOf(1), null, Integer.valueOf(1)));
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -84,6 +91,13 @@ public final class PartitionalClusteringTopComponent extends TopComponent implem
             }
         ));
         jScrollPane1.setViewportView(jTable1);
+
+        org.openide.awt.Mnemonics.setLocalizedText(jButton1, org.openide.util.NbBundle.getMessage(PartitionalClusteringTopComponent.class, "PartitionalClusteringTopComponent.jButton1.text")); // NOI18N
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -99,7 +113,10 @@ public final class PartitionalClusteringTopComponent extends TopComponent implem
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jComboBox1, 0, 226, Short.MAX_VALUE)
                     .addComponent(jComboBox2, 0, 226, Short.MAX_VALUE)
-                    .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 176, Short.MAX_VALUE)))
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addGap(12, 12, 12)
@@ -120,13 +137,26 @@ public final class PartitionalClusteringTopComponent extends TopComponent implem
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 275, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 273, Short.MAX_VALUE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        //if fails - add: .getClass().newInstance()
+        ClusteringAlgorithm algorithm = (ClusteringAlgorithm) jComboBox1.getSelectedItem();
+        ProximityMeasure measure = (ProximityMeasure) jComboBox2.getSelectedItem();
+        
+        ClusterInfo clustered = algorithm.calculate(model.getPreparedCalculationData(), null, measure, (Integer)jSpinner1.getValue());
+        
+        jTable1.setModel(new ResultsTableModel(clustered));
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JComboBox jComboBox1;
     private javax.swing.JComboBox jComboBox2;
     private javax.swing.JLabel jLabel1;
@@ -166,11 +196,13 @@ public final class PartitionalClusteringTopComponent extends TopComponent implem
         Lookup.Result r = (Lookup.Result) le.getSource();
         Collection c = r.allInstances();
         if (!c.isEmpty()) {
-            DataModel model = (DataModel) c.iterator().next();
+            model = (DataModel) c.iterator().next();
             setName("Partitional clustering for [" + model.getName() + "]");
         } else {
-            setName("No DataModel selected");
+//            model = null;
+//            setName("No DataModel selected");
         }
+        jButton1.setEnabled(model == null ? false : true);
     }
 
 //    ClusterInfo calculate(List<double[]> observations, double[][] matrix, ProximityMeasure measure, int clusterCount);
@@ -211,6 +243,30 @@ public final class PartitionalClusteringTopComponent extends TopComponent implem
         @Override
         public Object getElementAt(int i) {
             return measures.get(i);
+        }
+    }
+    
+    private static class ResultsTableModel extends AbstractTableModel {
+        
+        private ClusterInfo info;
+        
+        public ResultsTableModel(ClusterInfo info) {
+            this.info = info;
+        }
+        
+        @Override
+        public int getRowCount() {
+            return info.getResults().length;
+        }
+
+        @Override
+        public int getColumnCount() {
+            return 2;
+        }
+
+        @Override
+        public Object getValueAt(int row, int col) {
+           return col == 0? row : info.getClusterNumber(row);
         }
     }
 }

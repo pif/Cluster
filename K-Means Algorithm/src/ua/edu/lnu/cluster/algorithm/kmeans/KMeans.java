@@ -116,5 +116,11 @@ public class KMeans implements PartitionalClustering {
         ClusterInfo info = new ClusterInfo(resultingSet);
         return info;
     }
+
+    @Override
+    public String toString() {
+        return "K-Means algorithm";
+    }
+ 
     
 }

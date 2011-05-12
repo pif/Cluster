@@ -34,5 +34,10 @@ public class EuclidianDistance implements ProximityMeasure {
         return sum;
     }
 
+    @Override
+    public String toString() {
+        return getDisplayName();
+    }
+
     
 }

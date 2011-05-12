@@ -22,6 +22,9 @@ public class ClusterInfo {
         this.results = results;
     }
 
+    public int[] getResults() {
+        return results;
+    }
     
     public int getClusterNumber(int obsIndex) {
         return results[obsIndex];
