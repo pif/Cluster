@@ -7,6 +7,8 @@ package ua.edu.lnu.cluster.algorithm.kmeans;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+import org.netbeans.api.progress.ProgressHandle;
+import org.netbeans.api.progress.ProgressHandleFactory;
 import org.openide.util.lookup.ServiceProvider;
 import ua.edu.lnu.cluster.algorithm.api.ClusterInfo;
 import ua.edu.lnu.cluster.algorithm.api.PartitionalClustering;
@@ -43,7 +45,7 @@ public class KMeans implements PartitionalClustering {
      *
      * @return 
      */
-    private void clusterData() {
+    private void clusterData(ProgressHandle handle) {
         initMeans();
 
         boolean movedElements = true;
@@ -51,6 +53,11 @@ public class KMeans implements PartitionalClustering {
             System.out.println(Arrays.toString(resultingSet));
             movedElements = moveObservations();
             updateMeans();
+            
+            try {Thread.sleep(1000);} catch (InterruptedException ex) {
+}
+
+            handle.progress("Calculating...");
         }
     }
 
@@ -111,7 +118,12 @@ public class KMeans implements PartitionalClustering {
         this.clusterMeans = new double[clusterCount][data.get(0).length];
         this.resultingSet = new int[data.size()];
 
-        this.clusterData();
+        ProgressHandle handle = ProgressHandleFactory.createHandle("Calculating K-Means partitions...");
+        handle.start();
+        
+        this.clusterData(handle);
+        
+        handle.finish();
         
         ClusterInfo info = new ClusterInfo(resultingSet);
         return info;
