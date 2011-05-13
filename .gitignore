@@ -2,6 +2,7 @@
 /DataAPI/nbproject/private/
 /Loaders API/nbproject/private/
 /build/
+/dist/
 /DataAPI/build/
 /Cluster UI/nbproject/private/
 /K-Means Algorithm/build/
@@ -11,7 +12,10 @@
 /Cluster File Support/nbproject/private/
 /Cluster File Support/build/
 /Cluster Project/build/
-/dist/
 /Cluster Project/nbproject/private/
-/Cluster Utilities/nbproject/private/
+/Cluster Algorithms/build/
 /UPGMA/nbproject/private/
+/K-Means Algorithm/nbproject/private/
+/Cluster Algorithms/nbproject/private/
+/Algorithm UI/nbproject/private/
+/Algorithm UI/build/
