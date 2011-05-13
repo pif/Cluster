@@ -4,9 +4,13 @@
  */
 package ua.edu.lnu.cluster.algorithm.api;
 
+import java.util.List;
+import ua.edu.lnu.cluster.measures.api.ProximityMeasure;
+
 /**
  *
  * @author pif
  */
 public interface PartitionalClustering extends ClusteringAlgorithm{
+    ClusterInfo calculate(List<double[]> observations, double[][] matrix, ProximityMeasure measure, int clusterCount);
 }

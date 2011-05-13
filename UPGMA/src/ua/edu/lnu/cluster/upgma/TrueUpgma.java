@@ -4,6 +4,8 @@
  */
 package ua.edu.lnu.cluster.upgma;
 
+import ua.edu.lnu.cluster.algorithm.api.ClusterTree;
+import ua.edu.lnu.cluster.algorithm.api.HierarchicalClustering;
 import java.util.HashMap;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<cluster>
+<data>
+<item>
+<el>helloOLOLO</el>
+<el>0.23</el>
+<el>cat1</el>
+</item>
+<item>
+<el>world</el>
+<el>23.9</el>
+<el>cat2</el>
+</item>
+<item>
+<el>funnyX</el>
+<el>0.00</el>
+<el>cat1</el>
+</item>
+<item>
+<el>mouseChange</el>
+<el>7.77</el>
+<el>cat2</el>
+</item>
+<item>
+<el>happy</el>
+<el>2.22</el>
+<el>cat2</el>
+</item>
+<item>
+<el>stuff</el>
+<el>44.4</el>
+<el>cat1</el>
+</item>
+</data>
+<columns>
+<column colname="Column A" used="true" type="ua.edu.lnu.cluster.interpreters.StringInterpreter"/>
+<column colname="Column B" used="false" type="ua.edu.lnu.cluster.interpreters.DoubleInterpreter"/>
+<column colname="Column C" used="true" type="ua.edu.lnu.cluster.interpreters.CategoryInterpreter"/>
+</columns>
+</cluster>

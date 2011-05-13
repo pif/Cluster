@@ -9,7 +9,6 @@ import java.util.Collection;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.table.AbstractTableModel;
-import javax.swing.table.DefaultTableModel;
 import org.openide.util.NbBundle;
 import org.openide.windows.TopComponent;
 import org.netbeans.api.settings.ConvertAsProperties;
@@ -147,7 +146,7 @@ public final class PartitionalClusteringTopComponent extends TopComponent implem
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         //if fails - add: .getClass().newInstance()
-        ClusteringAlgorithm algorithm = (ClusteringAlgorithm) jComboBox1.getSelectedItem();
+        PartitionalClustering algorithm = (PartitionalClustering) jComboBox1.getSelectedItem();
         ProximityMeasure measure = (ProximityMeasure) jComboBox2.getSelectedItem();
         
         ClusterInfo clustered = algorithm.calculate(model.getPreparedCalculationData(), null, measure, (Integer)jSpinner1.getValue());
