@@ -20,7 +20,7 @@ public class DataModel implements PropertyChangeListener {
     public static final String PROP_NAME = "name";
     public static final String PROP_DATA = "dataChange";
     private List<DataColumn> dataColumns = new ArrayList<DataColumn>();
-    private List<Observation> observations = new ArrayList<Observation>();
+    //private List<Observation> observations = new ArrayList<Observation>();
     private String name = "Dataset";
     private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 
@@ -47,7 +47,7 @@ public class DataModel implements PropertyChangeListener {
                     dataColumns.get(j).addData(chunks[j]);
                 }
 
-                observations.add(new Observation(chunks));
+                //observations.add(new Observation(chunks));
             }
 
 
@@ -92,9 +92,9 @@ public class DataModel implements PropertyChangeListener {
         for (DataColumn dataColumn : dataColumns) {
             dataColumn.removeData(id);
         }
-        observations.remove(id);
+        //observations.remove(id);
 
-        pcs.firePropertyChange(PROP_DATA, null, observations);
+        pcs.firePropertyChange(PROP_DATA, null, null);
     }
 
 //    public void addObservation(Object[] observation) {

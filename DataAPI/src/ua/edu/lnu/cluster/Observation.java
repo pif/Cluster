@@ -10,7 +10,7 @@ import java.io.Serializable;
  *
  * @author pif
  */
-class Observation implements Serializable {
+public class Observation implements Serializable {
 
     private static final long serialVersionUID = 1L;
     
