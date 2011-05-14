@@ -80,8 +80,8 @@ public final class DataModelTopComponent extends TopComponent {
 
         jTable1.setModel(new DMTableModel(dataModel));
         jTable1.getSelectionModel().addListSelectionListener(new DataColumnListener());
-        jTable1.setDefaultRenderer(Object.class, new ValidCellRenderer());
-        jTable1.setDefaultEditor(Integer.class, new CategoryCellEditor());
+        //jTable1.setDefaultRenderer(Object.class, new ValidCellRenderer());
+        //jTable1.setDefaultEditor(Integer.class, new CategoryCellEditor());
     }
 
     /** This method is called from within the constructor to
