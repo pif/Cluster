@@ -57,9 +57,7 @@ public class TrueUpgma implements HierarchicalClustering {
         }
 
         for (int i = 0; i < arr.length; i++) {
-            for (int j = 0; j < arr.length; j++) {
-                matrix[i][j] = arr[i][j];
-            }
+            System.arraycopy(arr[i], 0, matrix[i], 0, arr.length);
         }
 
         for (int i = 0; i < clusters.length; i++) {
@@ -380,20 +378,29 @@ public class TrueUpgma implements HierarchicalClustering {
     }
 
     private ClusterTree convert(JTree jTree) {
-        ClusterTree tree = new ClusterTree();
+        ClusterTree ctree = new ClusterTree();
         throw new NotImplementedException("Implement conversion!!!!");
         //return tree;
     }
 
-    @Override
-    public ClusterTree clusterData(double[][] matrix) {
-
+    private void calculate(double[][] matrix) {
         init(matrix);
 
         while (getMatrix().length > 1) {
             updateMatrix();
         }
+    }
+
+    @Override
+    public ClusterTree clusterData(double[][] matrix) {
+        calculate(matrix);
 
         return convert(tree);
+    }
+
+    @Override
+    public JTree getResultTree(double[][] matrix) {
+        calculate(matrix);
+        return tree;
     }
 }

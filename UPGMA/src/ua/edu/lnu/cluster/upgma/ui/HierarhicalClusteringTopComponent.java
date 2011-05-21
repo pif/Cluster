@@ -4,14 +4,23 @@
  */
 package ua.edu.lnu.cluster.upgma.ui;
 
-import javax.swing.AbstractListModel;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import org.openide.util.NbBundle;
 import org.openide.windows.TopComponent;
-import org.openide.windows.WindowManager;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
+import org.openide.util.Lookup;
+import org.openide.util.LookupEvent;
+import org.openide.util.LookupListener;
+import org.openide.util.Utilities;
+import ua.edu.lnu.cluster.DataModel;
+import ua.edu.lnu.cluster.algorithm.api.HierarchicalClustering;
+import ua.edu.lnu.cluster.measures.api.ProximityMatrix;
+import ua.edu.lnu.cluster.measures.api.ProximityMeasure;
 
 /**
  * Top component which displays something.
@@ -26,8 +35,12 @@ persistenceType = TopComponent.PERSISTENCE_ALWAYS)
 @ActionReference(path = "Menu/Window" /*, position = 333 */)
 @TopComponent.OpenActionRegistration(displayName = "#CTL_HierarhicalClusteringAction",
 preferredID = "HierarhicalClusteringTopComponent")
-public final class HierarhicalClusteringTopComponent extends TopComponent {
+public final class HierarhicalClusteringTopComponent extends TopComponent implements LookupListener {
 
+    private Lookup.Result result = null;
+    private DataModel model = null;
+    private ProximityMatrix proximityMatrix = Lookup.getDefault().lookup(ProximityMatrix.class);
+    
     public HierarhicalClusteringTopComponent() {
         initComponents();
         setName(NbBundle.getMessage(HierarhicalClusteringTopComponent.class, "CTL_HierarhicalClusteringTopComponent"));
@@ -47,12 +60,20 @@ public final class HierarhicalClusteringTopComponent extends TopComponent {
         jComboBox1 = new javax.swing.JComboBox();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTree1 = new javax.swing.JTree();
+        jButton1 = new javax.swing.JButton();
 
         org.openide.awt.Mnemonics.setLocalizedText(jLabel1, org.openide.util.NbBundle.getMessage(HierarhicalClusteringTopComponent.class, "HierarhicalClusteringTopComponent.jLabel1.text")); // NOI18N
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox1.setModel(new HierarchicalClusterModel());
 
         jScrollPane1.setViewportView(jTree1);
+
+        org.openide.awt.Mnemonics.setLocalizedText(jButton1, org.openide.util.NbBundle.getMessage(HierarhicalClusteringTopComponent.class, "HierarhicalClusteringTopComponent.jButton1.text")); // NOI18N
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -61,11 +82,13 @@ public final class HierarhicalClusteringTopComponent extends TopComponent {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 239, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jComboBox1, 0, 325, Short.MAX_VALUE)))
+                        .addComponent(jComboBox1, 0, 122, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton1)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -74,27 +97,53 @@ public final class HierarhicalClusteringTopComponent extends TopComponent {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 275, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 273, Short.MAX_VALUE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        //if fails - add: .getClass().newInstance()
+        HierarchicalClustering algorithm = (HierarchicalClustering) jComboBox1.getSelectedItem();
+        //ClusterInfo clustered = algorithm.calculate(model.getPreparedCalculationData(), null, measure, (Integer)jSpinner1.getValue());
+        // TODO: rewrite UPGMA
+        jTree1 = algorithm.getResultTree(proximityMatrix.calculate(model, Lookup.getDefault().lookup(ProximityMeasure.class)));
+    }//GEN-LAST:event_jButton1ActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JComboBox jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTree jTree1;
     // End of variables declaration//GEN-END:variables
+
     @Override
     public void componentOpened() {
-        // TODO add custom code on component opening
+        result = Utilities.actionsGlobalContext().lookupResult(DataModel.class);
+        result.addLookupListener(this);
     }
 
     @Override
     public void componentClosed() {
-        // TODO add custom code on component closing
+        result.removeLookupListener(this);
+        result = null;
+    }
+
+    @Override
+    public void resultChanged(LookupEvent le) {
+        Lookup.Result r = (Lookup.Result) le.getSource();
+        Collection c = r.allInstances();
+        if (!c.isEmpty()) {
+            model = (DataModel) c.iterator().next();
+            setName("Partitional clustering for [" + model.getName() + "]");
+        } else {
+//            model = null;
+//            setName("No DataModel selected");
+        }
+        jButton1.setEnabled(model == null ? false : true);
     }
 
     void writeProperties(java.util.Properties p) {
@@ -108,18 +157,24 @@ public final class HierarhicalClusteringTopComponent extends TopComponent {
         String version = p.getProperty("version");
         // TODO read your settings according to their version
     }
-    
-    private class HierarchicalModel extends AbstractListModel {
+
+    private static class HierarchicalClusterModel extends DefaultComboBoxModel {
+
+        private List<Object> algorithms = null;
+
+        public HierarchicalClusterModel() {
+            Collection<? extends HierarchicalClustering> lookupInterps = (Collection<? extends HierarchicalClustering>) Lookup.getDefault().lookupAll(HierarchicalClustering.class);
+            algorithms = Arrays.asList(lookupInterps.toArray());
+        }
 
         @Override
         public int getSize() {
-            throw new UnsupportedOperationException("Not supported yet.");
+            return algorithms.size();
         }
 
         @Override
-        public Object getElementAt(int index) {
-            throw new UnsupportedOperationException("Not supported yet.");
+        public Object getElementAt(int i) {
+            return algorithms.get(i);
         }
-        
     }
 }
