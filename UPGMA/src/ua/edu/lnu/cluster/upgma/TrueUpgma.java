@@ -10,11 +10,13 @@ import java.util.HashMap;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 import org.openide.util.NotImplementedException;
+import org.openide.util.lookup.ServiceProvider;
 
 /**
  *
  * @author Taras
  */
+@ServiceProvider(service=HierarchicalClustering.class)
 public class TrueUpgma implements HierarchicalClustering {
 
     private double[][] matrix = new double[0][0];
