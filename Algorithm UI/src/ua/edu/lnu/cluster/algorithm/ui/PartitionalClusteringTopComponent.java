@@ -20,7 +20,6 @@ import org.openide.util.LookupListener;
 import org.openide.util.Utilities;
 import ua.edu.lnu.cluster.DataModel;
 import ua.edu.lnu.cluster.algorithm.api.ClusterInfo;
-import ua.edu.lnu.cluster.algorithm.api.ClusteringAlgorithm;
 import ua.edu.lnu.cluster.algorithm.api.PartitionalClustering;
 import ua.edu.lnu.cluster.measures.api.ProximityMeasure;
 

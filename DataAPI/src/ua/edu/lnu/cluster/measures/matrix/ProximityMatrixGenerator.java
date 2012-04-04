@@ -4,6 +4,7 @@
  */
 package ua.edu.lnu.cluster.measures.matrix;
 
+import java.util.Arrays;
 import java.util.List;
 import org.openide.util.lookup.ServiceProvider;
 import ua.edu.lnu.cluster.DataModel;
@@ -25,11 +26,17 @@ public class ProximityMatrixGenerator implements ProximityMatrix {
         List<double[]> observations = model.getPreparedCalculationData();
         for (int i = 0; i < size; i++) {
             double[] element1 = observations.get(i);
-            for (int j = i + 1; j < size; j++) {
+            for (int j = 0; j < i; j++) {
                 res[i][j] = measure.distance(element1, observations.get(j));
             }
         }
 
+        System.out.println("Begin proximity matrix");
+        for (double[] ds : res) {
+            System.out.println(Arrays.toString(ds));
+        }
+        System.out.println("End proximity matrix");
+        
         return res;
     }
 }

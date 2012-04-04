@@ -73,12 +73,21 @@ public final class DataModelTopComponent extends TopComponent {
         setName(NbBundle.getMessage(DataModelTopComponent.class, "CTL_DataModelTopComponent"));
         setToolTipText(NbBundle.getMessage(DataModelTopComponent.class, "HINT_DataModelTopComponent"));
 
+        if (model == null) {
+            return;
+        }
         this.dataModel = model.getLookup().lookup(DataModel.class);
         this.dataObject = model;
         setName(this.dataObject.getName());
         associateLookup(new ProxyLookup(new AbstractLookup(content), dataObject.getLookup()));
 
         jTable1.setModel(new DMTableModel(dataModel));
+        jTable1.setDefaultRenderer(Double.class, null);
+        jTable1.setDefaultRenderer(Integer.class, null);
+        jTable1.setDefaultRenderer(Float.class, null);
+        jTable1.setDefaultRenderer(String.class, null);
+        jTable1.setDefaultRenderer(Object.class, null);
+        
         jTable1.getSelectionModel().addListSelectionListener(new DataColumnListener());
         jTable1.setDefaultRenderer(Object.class, new ValidCellRenderer());
         jTable1.setDefaultEditor(Integer.class, new CategoryCellEditor());

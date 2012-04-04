@@ -110,7 +110,7 @@ public final class HierarhicalClusteringTopComponent extends TopComponent implem
         HierarchicalClustering algorithm = (HierarchicalClustering) jComboBox1.getSelectedItem();
         //ClusterInfo clustered = algorithm.calculate(model.getPreparedCalculationData(), null, measure, (Integer)jSpinner1.getValue());
         // TODO: rewrite UPGMA
-        jTree1 = algorithm.getResultTree(proximityMatrix.calculate(model, Lookup.getDefault().lookup(ProximityMeasure.class)));
+        jScrollPane1.setViewportView(algorithm.getResultTree(proximityMatrix.calculate(model, Lookup.getDefault().lookup(ProximityMeasure.class))));
     }//GEN-LAST:event_jButton1ActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -138,7 +138,7 @@ public final class HierarhicalClusteringTopComponent extends TopComponent implem
         Collection c = r.allInstances();
         if (!c.isEmpty()) {
             model = (DataModel) c.iterator().next();
-            setName("Partitional clustering for [" + model.getName() + "]");
+            setName("Hierarchical clustering for [" + model.getName() + "]");
         } else {
 //            model = null;
 //            setName("No DataModel selected");

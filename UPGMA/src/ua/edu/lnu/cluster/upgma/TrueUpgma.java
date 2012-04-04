@@ -50,22 +50,24 @@ public class TrueUpgma implements HierarchicalClustering {
     }
 
     private void init(double[][] arr) {
-        matrix = new double[arr.length][arr.length];
-        clusters = new String[arr.length + 1];
+        matrix = new double[arr.length - 1][arr.length - 1];
+        clusters = new String[arr.length];
         map = new HashMap<String, DefaultMutableTreeNode>();
-
-        for (int i = 0; i < arr.length + 1; i++) {
+        
+        for (int i = 0; i < arr.length; i++) {
             clusters[i] = Integer.toString(i);
         }
-
-        for (int i = 0; i < arr.length; i++) {
-            System.arraycopy(arr[i], 0, matrix[i], 0, arr.length);
+        
+        for(int i = 1; i < arr.length; i++){
+            for(int j = 0; j < arr.length - 1; j++){
+                matrix[i - 1][j] = arr[i][j];
+            }
         }
-
-        for (int i = 0; i < clusters.length; i++) {
+        
+        for(int i = 0; i < clusters.length; i++){
             map.put(clusters[i], null);
         }
-
+        
         input = new double[arr.length][arr.length];
         input = matrix;
         tree = new JTree();
@@ -104,13 +106,18 @@ public class TrueUpgma implements HierarchicalClustering {
     public double getArithmetic(int[] arr2, int[] arr1) {
         double res = 0;
 
-        for (int i = 0; i < arr1.length; i++) {
-            for (int j = 0; j < arr2.length; j++) {
-                if (arr2[j] > matrix.length + 1) {
-                    res += input[arr2[j] - 1][arr1[i]];
-                } else if (input[arr1[i] - 1][arr2[j]] != 0) {
+         for(int i = 0; i < arr1.length; i++){
+            for(int j = 0; j < arr2.length; j++){
+                if(arr2[j] > matrix.length + 1){
+                    if(arr1[i] < input.length)
+                        res += input[arr2[j] - 1][arr1[i]];
+                    else
+                        res += input[arr2[j] - 1][arr1[i - 1]];
+                }
+                else if(input[arr1[i] - 1][arr2[j]] != 0){
                     res += input[arr1[i] - 1][arr2[j]];
-                } else {
+                }
+                else{
                     res += input[arr2[j] - 1][arr1[i]];
                 }
             }
@@ -165,7 +172,7 @@ public class TrueUpgma implements HierarchicalClustering {
         clusters = new String[temp.length];
         clusters = temp;
     }
-
+/*
     public void buildTree() {
         DefaultMutableTreeNode node1 = null;
         DefaultMutableTreeNode node2 = null;
@@ -258,7 +265,127 @@ public class TrueUpgma implements HierarchicalClustering {
             }
         }
     }
+*/
+    
+    
+    
+    public void buildTree(){
+        DefaultMutableTreeNode node1 = null;
+        DefaultMutableTreeNode node2 = null;
+        if(minColumn < minRow + 1){
+            if(clusters[minColumn].length() == 1)
+                node1 = new DefaultMutableTreeNode(clusters[minColumn]);
+            if(minRow + 1 < clusters.length){
+                if(clusters[minRow + 1].length() == 1)
+                    node2 = new DefaultMutableTreeNode(clusters[minRow + 1]);
+            }
+            else if(minRow + 1 == clusters.length){
+                if(clusters[minRow].length() == 1)
+                    node2 = new DefaultMutableTreeNode(clusters[minRow]);
+            }
+            if(clusters[minColumn].length() != 1){
+                node1 = map.get(clusters[minColumn]);
+            }
+            if(minRow + 1 < clusters.length){
+                if(clusters[minRow + 1].length() != 1)
+                    node2 = map.get(clusters[minRow + 1]);
+            }
+            else if(minRow + 1 == clusters.length){
+                if(clusters[minRow].length() != 1)
+                    node2 = map.get(clusters[minRow-1]);
+            }
+        }
+        else{
+            if(minRow + 1 < clusters.length){
+                if(clusters[minRow + 1].length() == 1)
+                    node2 = new DefaultMutableTreeNode(clusters[minRow + 1]);
+            }
+            else if(minRow + 1 == clusters.length){
+                if(clusters[minRow].length() == 1)
+                    node2 = new DefaultMutableTreeNode(clusters[minRow]);
+            }
+            if(minRow + 1 < clusters.length){
+                if(clusters[minRow + 1].length() != 1)
+                    node2 = map.get(clusters[minRow + 1]);
+            }
+            else if(minRow + 1 == clusters.length){
+                if(clusters[minRow].length() != 1)
+                    node2 = map.get(clusters[minRow]);
+            }
+            if(clusters[minColumn].length() == 1)
+                node1 = new DefaultMutableTreeNode(clusters[minColumn]);
+            
+            if(clusters[minColumn].length() != 1){
+                node1 = map.get(clusters[minColumn]);
+            }
+        }
+        
+        if(minRow + 1 == clusters.length)
+            map.remove(clusters[minRow]);
+        else
+            map.remove(clusters[minRow + 1]);
+        
+        map.remove(clusters[minColumn]);
 
+        DefaultMutableTreeNode parent = null;
+//        if(node1 != null)
+//            parent.add(node1);
+//        if(node2 != null)
+//            parent.add(node2);
+        
+        if(minRow + 1 < clusters.length){
+            if(minColumn < minRow + 1){
+                parent = new DefaultMutableTreeNode(clusters[minColumn] + " " + clusters[minRow + 1]);
+                if (node1 != null) {
+                    parent.add(node1);
+                }
+                if (node2 != null) {
+                    parent.add(node2);
+                }
+                map.put(clusters[minColumn] + " " + clusters[minRow + 1] , parent);
+            }
+            else{
+                parent = new DefaultMutableTreeNode(clusters[minRow + 1] + " " + clusters[minColumn]);
+                if (node1 != null) {
+                    parent.add(node1);
+                }
+                if (node2 != null) {
+                    parent.add(node2);
+                }
+                map.put(clusters[minRow + 1] + " " + clusters[minColumn] , parent);
+            }
+
+            if(clusters.length == 2){
+                tree = new JTree(parent);
+            }
+        }
+        else if(minRow + 1 == clusters.length){
+            if(minColumn < minRow + 1){
+                parent = new DefaultMutableTreeNode(clusters[minColumn] + " " + clusters[minRow]);
+                if (node1 != null) {
+                    parent.add(node1);
+                }
+                if (node2 != null) {
+                    parent.add(node2);
+                }
+                map.put(clusters[minColumn] + " " + clusters[minRow] , parent);
+            }
+            else{
+                parent = new DefaultMutableTreeNode(clusters[minRow] + " " + clusters[minColumn]);
+                if (node1 != null) {
+                    parent.add(node1);
+                }
+                if (node2 != null) {
+                    parent.add(node2);
+                }
+                map.put(clusters[minRow] + " " + clusters[minColumn] , parent);
+            }
+
+            if(clusters.length == 2){
+                tree = new JTree(parent);
+            }
+        }
+    }
     private DefaultMutableTreeNode subIf(DefaultMutableTreeNode node1, DefaultMutableTreeNode parent, DefaultMutableTreeNode node2, int idx1, int idx2) {
         parent = new DefaultMutableTreeNode(clusters[idx1] + " " + clusters[idx2]);
         if (node1 != null) {
@@ -388,8 +515,10 @@ public class TrueUpgma implements HierarchicalClustering {
     private void calculate(double[][] matrix) {
         init(matrix);
 
+        int i = 0;
         while (getMatrix().length > 1) {
             updateMatrix();
+            System.out.println("updated matrix "+ i++);
         }
     }
 
@@ -405,4 +534,11 @@ public class TrueUpgma implements HierarchicalClustering {
         calculate(matrix);
         return tree;
     }
+
+    @Override
+    public String toString() {
+        return "UPGMA";
+    }
+    
+    
 }
